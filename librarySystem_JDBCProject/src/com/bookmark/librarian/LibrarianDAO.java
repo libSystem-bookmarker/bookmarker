@@ -33,7 +33,6 @@ public class LibrarianDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			if(rs.next()) {
-				System.out.println(rs.getInt("lastBookId"));
 				return rs.getInt("lastBookId");
 			}
 		
@@ -47,7 +46,7 @@ public class LibrarianDAO {
 	}
 	
 
-	
+	// 도서 등록 =
 	public void insertBook(BookVO book) {
 		Connection con = null;
 		
@@ -64,18 +63,18 @@ public class LibrarianDAO {
 			stmt.setString(5, book.getPublisher());     
 			stmt.setInt(6, book.getTotalCount()); 
 			stmt.setDate(7, book.getCreateAt());             
-           
 			
 			stmt.executeUpdate();
 		
-		}catch(SQLException e) {
+		}
+		
+		catch(SQLException e) {
 			throw new RuntimeException(e);
 		}finally {
 			ds.closeConnection(con);
 		}
 		
 	}
-	
 	
 	
 	
@@ -117,7 +116,6 @@ public class LibrarianDAO {
 	
 	
 	
-	
 	public List<BookVO> getBookAll(){
 		
 		Connection con = null;
@@ -127,7 +125,7 @@ public class LibrarianDAO {
 			
 			con = ds.getConnection();
 			
-			String selectBookAll = "SELECT "
+			String selectBookAll = "SELECT"
 					+ "  book_id AS bookId, "
 					+ "  category_id AS categoryId, "
 					+ "  title AS title, "
@@ -136,7 +134,8 @@ public class LibrarianDAO {
 					+ "  total_count AS totalCount, "
 					+ "  create_at AS createAt "
 					+ "FROM "
-					+ "  book";
+					+ "  book "
+					+ "JOIN category ON book.category_id = category.category_id";
 			
 			
 			
