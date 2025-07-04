@@ -16,7 +16,7 @@ public class BookVO {
 	private Date createAt; //출판일
 	
 	
-	 // 조회용 생성자
+	 // 목록 조회용 생성자
     public BookVO(int bookId, int categoryId, String title, String author,
                   String publisher, int totalCount, Date createAt) {
         this.bookId = bookId;
@@ -28,10 +28,16 @@ public class BookVO {
         this.createAt = createAt;
     }
     
+    // 상세 조회용 생성자
+    
     
 //    bookId만 받는 생성자
     public BookVO(int bookId) {
     	this.bookId = bookId;
     }
+
+	public BookVO() {
+		// TODO Auto-generated constructor stub
+	}
 
 }
