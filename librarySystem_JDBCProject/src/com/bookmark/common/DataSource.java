@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class DataSource {
 	
 	//공유 db 설정
-	private static String driverClassName = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@192.168.0.20:1521:xe";
-	private String username = "system";
-	private String password = "1234";
+	private static String driverClassName = "oracle.driver.OracleDriver";
+	private static String url = "jdbc:oracle:thin:@localhost:1522:xe";
+	private static String username = "hr";
+	private static String password = "hr";
 
 	// class load 시 딱 한 번 사용되는 static initializer
 	static {
