@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class MajorVO {
 	
-	private int majorId; //pk
+	private int major_id; //pk
 	private String name; //학과명
 
 }
