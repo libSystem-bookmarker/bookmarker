@@ -6,6 +6,6 @@ import lombok.Data;
 public class MajorVO {
 	
 	private int majorId; //pk
-	private String majorName; //학과명
+	private String name; //학과명
 
 }

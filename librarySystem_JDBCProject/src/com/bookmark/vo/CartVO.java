@@ -7,7 +7,7 @@ public class CartVO {
 	
 	private int cartId; //pk
 	private int userId; //fk
-	private int bootId; //fk
+	private int bookId; //fk
 	
 
 }

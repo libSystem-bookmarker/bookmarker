@@ -3,9 +3,9 @@ package com.bookmark.vo;
 import lombok.Data;
 
 @Data
-public class BookCategoryVO {
+public class CategoryVO {
 	
 	private int categoryId; //pk
-	private String categoryName; //카테고리명
+	private String name; //카테고리명
 
 }
