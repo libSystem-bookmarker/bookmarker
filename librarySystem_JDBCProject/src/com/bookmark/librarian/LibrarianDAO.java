@@ -137,8 +137,6 @@ public class LibrarianDAO {
 					+ "  book "
 					+ "JOIN category ON book.category_id = category.category_id";
 			
-			
-			
 			PreparedStatement stmt = con.prepareStatement(selectBookAll);
 			
 			ResultSet rs = stmt.executeQuery();

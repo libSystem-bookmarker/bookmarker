@@ -11,6 +11,6 @@ public class BookLoanDetailVO {
 	private int bookId; //fk
 	private int userId; //fk
 	private Date loanDate; //대여일
-	private Date returnDate; //반납일
+	private Date returnDate; //반납
 
 }
