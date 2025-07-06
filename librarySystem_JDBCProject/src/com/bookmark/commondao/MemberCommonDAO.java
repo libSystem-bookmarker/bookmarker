@@ -42,7 +42,7 @@ public class MemberCommonDAO {
 				memberVO.setMajor_id(rs.getInt("major_id"));
 
 				Session.loggedInUser = memberVO; // 로그인된 사용자 세션 저장
-				System.out.println("로그인 성공! [" + memberVO.getRole() + "]");
+				System.out.println("login success : [" +memberVO.getName() +" " + memberVO.getRole() + "]");
 				return true;
 			} else {
 				System.out.println("로그인 실패: 아이디 또는 비밀번호 오류");
