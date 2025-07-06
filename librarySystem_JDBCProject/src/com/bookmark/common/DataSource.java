@@ -3,8 +3,12 @@ package com.bookmark.common;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class DataSource {
+	
+	//Scanner 설정
+	public static Scanner sc = new Scanner(System.in);
 	
 	//공유 db 설정
 	private static String driverClassName = "oracle.driver.OracleDriver";
