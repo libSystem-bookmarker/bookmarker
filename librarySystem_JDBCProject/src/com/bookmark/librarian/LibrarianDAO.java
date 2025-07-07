@@ -48,6 +48,113 @@ public class LibrarianDAO {
 		
 	}
 	
+	
+	
+	
+	// 카테고리별 도서 목록
+	public List<BookWithCategoryVO> getBooksByCategory(int categoryId) {
+	    List<BookWithCategoryVO> bookList = new ArrayList<>();
+	    Connection con = null;
+
+	    String sql = "SELECT "
+	               + "  book_id AS bookId, "
+	               + "  category_id AS categoryId, "
+	               + "  category_name AS categoryName, "
+	               + "  title AS title, "
+	               + "  author AS author, "
+	               + "  publisher AS publisher, "
+	               + "  total_count AS totalCount, "
+	               + "  create_at AS createAt "
+	               + "FROM book_with_category_view "
+	               + "WHERE category_id = ?";
+
+	    try {
+	        con = ds.getConnection();
+	        PreparedStatement stmt = con.prepareStatement(sql);
+	        stmt.setInt(1, categoryId);
+
+	        ResultSet rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            BookWithCategoryVO book = new BookWithCategoryVO(
+	                rs.getInt("bookId"),
+	                rs.getInt("categoryId"),
+	                rs.getString("categoryName"),
+	                rs.getString("title"),
+	                rs.getString("author"),
+	                rs.getString("publisher"),
+	                rs.getInt("totalCount"),
+	                rs.getDate("createAt")
+	            );
+
+	            bookList.add(book);
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("카테고리별 도서 조회 중 오류 발생", e);
+
+	    } finally {
+	       ds.closeConnection(con);
+	    }
+
+	    return bookList;
+	}
+	
+	
+	
+	// 도서 키워드로 조회
+		// 도서 검색
+	public List<BookWithCategoryVO> getSearchBooks(String keyword) {
+	    List<BookWithCategoryVO> bookList = new ArrayList<>();
+	    Connection con = null;
+
+	    String sql = "SELECT "
+	               + "  book_id AS bookId, "
+	               + "  category_id AS categoryId, "
+	               + "  category_name AS categoryName, "
+	               + "  title AS title, "
+	               + "  author AS author, "
+	               + "  publisher AS publisher, "
+	               + "  total_count AS totalCount, "
+	               + "  create_at AS createAt "
+	               + "FROM book_with_category_view "
+	               + "WHERE LOWER(title) LIKE ? OR LOWER(author) LIKE ?";
+
+	    try {
+	        con = ds.getConnection();
+	        PreparedStatement stmt = con.prepareStatement(sql);
+	        
+	        String searchPattern = "%" + keyword.toLowerCase() + "%";
+	        
+	        stmt.setString(1, searchPattern);
+	        stmt.setString(2, searchPattern);
+
+	        ResultSet rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            BookWithCategoryVO book = new BookWithCategoryVO(
+	                rs.getInt("bookId"),
+	                rs.getInt("categoryId"),
+	                rs.getString("categoryName"),
+	                rs.getString("title"),
+	                rs.getString("author"),
+	                rs.getString("publisher"),
+	                rs.getInt("totalCount"),
+	                rs.getDate("createAt")
+	            );
+	            bookList.add(book);
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("🔍 도서 검색 중 오류 발생: " + e.getMessage(), e);
+	    } finally {
+		      ds.closeConnection(con);
+		 }
+	    
+	    return bookList;
+	}
+	
+	
 
 	// 도서 등록
 	public void insertBook(BookVO book) {

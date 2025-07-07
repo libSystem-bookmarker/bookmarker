@@ -25,7 +25,16 @@ public class LibrarianMain {
 		
 		
 		// 도서 목록 조회
-		view.showBookList();
+//		view.showBookList();
+		
+		
+		// 카테고리로 도서 목록 조회
+//		view.inputCategoryBook();
+		
+		
+		// 검색한 도서 목록 조회
+		view.inputSearchBook();
+	
 		
 		
 		
