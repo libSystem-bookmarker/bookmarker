@@ -11,7 +11,7 @@ public class StudentSelectClass {
 	DataSource ds = new DataSource();
 	StudentDAO studentDAO = new StudentDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
-	CartDAO cartDAO = new CartDAO();
+	//CartDAO cartDAO = new CartDAO();
 	
 		/**
 		 * @author ys.kim
@@ -46,7 +46,7 @@ public class StudentSelectClass {
 		 */
 		public void cartInfo () {
 			
-			System.out.println("check method");
+			
 		}
 		
 		/**
@@ -65,10 +65,10 @@ public class StudentSelectClass {
 			case 1: { studentDAO.loanedBookList(userId);
 				break;
 			}
-			case 2: { cartInfo ();
+			case 2: { studentDAO.viewCartAndSelectOption(userId);
 				break;
 			}
-			case 3: { cartDAO.getCartByUserId(userId);
+			case 3: { //cartDAO.getCartByUserId(userId);
 				break;
 			}
 			case 4: {

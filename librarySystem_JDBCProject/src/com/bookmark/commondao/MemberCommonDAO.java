@@ -88,7 +88,7 @@ public class MemberCommonDAO {
 				int id = rs.getInt("user_id");
 				String name = rs.getString("name");
 				String role = rs.getString("role");
-				System.out.printf("\"ID: %-10d | NAME: %-10s | ROLE: %-7s\n", id, name, role);
+				System.out.printf("ID: %-10d | NAME: %-10s | ROLE: %-7s\n", id, name, role);
 			}
 		} catch (SQLException e) {
 			System.out.println("Failed to fetch member information: " + e.getMessage());
