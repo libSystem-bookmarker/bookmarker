@@ -24,7 +24,7 @@ public class LoanSystem {
 		        
 		        List<BookWithCategoryVO> searchResults = new ArrayList<>();
 
-		        System.out.println("\n📚 도서 대출을 시작합니다.");
+		        System.out.println("\n📚 도서 대출");
 		        System.out.println("1. 전체 도서 목록 보기");
 		        System.out.println("2. 카테고리별 도서 목록 보기");
 		        System.out.println("3. 제목 또는 작가 검색");
@@ -59,32 +59,39 @@ public class LoanSystem {
 
 		        if (searchResults.isEmpty()) {
 		            System.out.println("📭 검색된 도서가 없습니다.");
-		            return;
+		            continue;
+		        } else {
+		        	 // 결과 출력
+			        System.out.println("\n📘 도서 목록:");
+			        for (BookWithCategoryVO book : searchResults) {
+			            System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
+			                book.getBookId(),
+			                book.getCategoryId(),
+			                book.getCategoryName(),
+			                book.getTitle(),
+			                book.getAuthor(),
+			                book.getPublisher(),
+			                book.getCreateAt().toString(),
+			                book.getTotalCount()
+			            );
+			        }
+			        
 		        }
 
-		        // 결과 출력
-		        System.out.println("\n📘 도서 목록:");
-		        for (BookWithCategoryVO book : searchResults) {
-		            System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-		                book.getBookId(),
-		                book.getCategoryId(),
-		                book.getCategoryName(),
-		                book.getTitle(),
-		                book.getAuthor(),
-		                book.getPublisher(),
-		                book.getCreateAt().toString(),
-		                book.getTotalCount()
-		            );
-		        }
 		        
-		        
-		        
-		        System.out.print("\n📌 대출할 도서의 ID를 입력하세요 (0: 취소): ");
+		        System.out.print("\n📌 대출할 도서의 ID를 입력하세요 (0: 이전 도서 목록으로): ");
 		        int bookId = sc.nextInt();
 
 		        if (bookId == 0) {
 		            System.out.println("❎ 도서 대출이 취소되었습니다.");
-		            break;
+		            continue;
+		        } else {
+		        	
+		        	// 대출 insert
+		        	
+		        	
+		        	// 대출 화면
+		        	
 		        }
 		        
 		        
