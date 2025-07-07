@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.bookmark.librarian.BookDAO;
+import com.bookmark.librarian.BookView;
 import com.bookmark.vo.BookWithCategoryVO;
 
 public class LoanSystem {
@@ -12,6 +13,7 @@ public class LoanSystem {
 	// 전역
 	private static Scanner sc = new Scanner(System.in);
 	private static BookDAO dao = new BookDAO();
+	private static BookView view = new BookView();
 	
 	public static void main(String[] args) {
 		
@@ -19,17 +21,7 @@ public class LoanSystem {
 		
 		while(true) {
 			
-			  System.out.print("\n📌 대출할 도서의 ID를 입력하세요 (0: 취소): ");
-		        int bookId = sc.nextInt();
-
-		        if (bookId == 0) {
-		            System.out.println("❎ 도서 대출이 취소되었습니다.");
-		            break;
-		        }
 		        
-		        
-		        
-		        //
 		        List<BookWithCategoryVO> searchResults = new ArrayList<>();
 
 		        System.out.println("\n📚 도서 대출을 시작합니다.");
@@ -46,15 +38,19 @@ public class LoanSystem {
 		                searchResults = dao.getBookAll();
 		                break;
 		            case 2:
-		                System.out.print("📂 열람할 카테고리 ID 입력: ");
+						System.out.println("--------------------------------------------------");
+						System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
+						System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
+						System.out.println("--------------------------------------------------");
+		                System.out.print("▶ 카테고리 ID 입력: ");
 		                int categoryId = sc.nextInt();
 		                sc.nextLine();
 		                searchResults = dao.getBooksByCategory(categoryId);
 		                break;
 		            case 3:
-		                System.out.print("🔎 제목 또는 작가 키워드 입력: ");
+		                System.out.print("▶ 검색할 키워드를 입력하세요.(제목 또는 작가): ");
 		                String keyword = sc.nextLine();
-		                searchResults = dao.searchBooks(keyword);
+		                searchResults = dao.getSearchBooks(keyword);
 		                break;
 		            default:
 		                System.out.println("❌ 잘못된 선택입니다.");
@@ -67,18 +63,30 @@ public class LoanSystem {
 		        }
 
 		        // 결과 출력
-		        System.out.println("\n📘 검색 결과:");
+		        System.out.println("\n📘 도서 목록:");
 		        for (BookWithCategoryVO book : searchResults) {
-		            System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 수량: %d권\n",
+		            System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
 		                book.getBookId(),
 		                book.getCategoryId(),
 		                book.getCategoryName(),
 		                book.getTitle(),
 		                book.getAuthor(),
 		                book.getPublisher(),
+		                book.getCreateAt().toString(),
 		                book.getTotalCount()
 		            );
 		        }
+		        
+		        
+		        
+		        System.out.print("\n📌 대출할 도서의 ID를 입력하세요 (0: 취소): ");
+		        int bookId = sc.nextInt();
+
+		        if (bookId == 0) {
+		            System.out.println("❎ 도서 대출이 취소되었습니다.");
+		            break;
+		        }
+		        
 		        
 		}
 

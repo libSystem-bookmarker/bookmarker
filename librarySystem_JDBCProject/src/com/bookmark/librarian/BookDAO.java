@@ -236,7 +236,7 @@ public class BookDAO {
 			String selectBookAll = "SELECT"
 					+ "  book_id AS bookId, "
 					+ "  category_id AS categoryId, "
-					+ "  name AS categoryName,"
+					+ "  category_name AS categoryName,"
 					+ "  title AS title, "
 					+ "  author AS author, "
 					+ "  publisher AS publisher, "

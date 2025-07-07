@@ -17,32 +17,32 @@ public class BookView {
 	Scanner scanner = new Scanner(System.in);
 	
 	
-	// 도서 전체 목록 보기 콘솔
-	public void showBookList() {
-		
-		List<BookWithCategoryVO> bookList = dao.getBookAll();
-		
-		System.out.println();
-	    System.out.println("📚 등록된 도서 목록");
-	    System.out.println("==========================================================================================================");
-	    System.out.printf(" %-4s  %-10s  %-15s  %-10s  %-10s  %-5s  %-12s  %-10s\n",
-	            "ID", "카테고리", "제목", "작가", "출판사", "수량", "출판일", "카테고리ID");
-	    System.out.println("----------------------------------------------------------------------------------------------------------");
-
-	    for (BookWithCategoryVO book : bookList) {
-	        System.out.printf(" %-4d  %-10s  %-15s  %-10s  %-10s  %-5d  %-12s  %-10d\n",
-	                book.getBookId(),
-	                book.getCategoryName(),
-	                book.getTitle(),
-	                book.getAuthor(),
-	                book.getPublisher(),
-	                book.getTotalCount(),
-	                book.getCreateAt().toString(),
-	                book.getCategoryId());
-	    }
-
-	    System.out.println("==========================================================================================================");
-		}
+//	// 도서 전체 목록 보기 콘솔
+//	public void showBookList() {
+//		
+//		List<BookWithCategoryVO> bookList = dao.getBookAll();
+//		
+//		System.out.println();
+//	    System.out.println("📚 등록된 도서 목록");
+//	    System.out.println("==========================================================================================================");
+//	    System.out.printf(" %-4s  %-10s  %-15s  %-10s  %-10s  %-5s  %-12s  %-10s\n",
+//	            "ID", "카테고리", "제목", "작가", "출판사", "수량", "출판일", "카테고리ID");
+//	    System.out.println("----------------------------------------------------------------------------------------------------------");
+//
+//	    for (BookWithCategoryVO book : bookList) {
+//	        System.out.printf(" %-4d  %-10s  %-15s  %-10s  %-10s  %-5d  %-12s  %-10d\n",
+//	                book.getBookId(),
+//	                book.getCategoryName(),
+//	                book.getTitle(),
+//	                book.getAuthor(),
+//	                book.getPublisher(),
+//	                book.getTotalCount(),
+//	                book.getCreateAt().toString(),
+//	                book.getCategoryId());
+//	    }
+//
+//	    System.out.println("==========================================================================================================");
+//		}
 	
 	
 	
