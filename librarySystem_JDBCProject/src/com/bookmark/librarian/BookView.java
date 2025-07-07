@@ -9,9 +9,9 @@ import com.bookmark.vo.BookVO;
 import com.bookmark.vo.BookWithCategoryVO;
 import com.bookmark.vo.CategoryVO;
 
-public class LibrarianView {
+public class BookView {
 	
-	private LibrarianDAO dao = new LibrarianDAO();
+	private BookDAO dao = new BookDAO();
 	private int lastBookId = 1;
 	
 	Scanner scanner = new Scanner(System.in);

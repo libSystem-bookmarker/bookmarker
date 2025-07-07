@@ -18,8 +18,8 @@ public class LibrarianMain {
 		List<CategoryVO> categoryList = new ArrayList<>();
 		List<BookVO> bookList = new ArrayList<>();
 		
-		LibrarianDAO dao = new LibrarianDAO();
-		LibrarianView view = new LibrarianView();
+		BookDAO dao = new BookDAO();
+		BookView view = new BookView();
 		
 		Scanner scanner = new Scanner(System.in);
 		

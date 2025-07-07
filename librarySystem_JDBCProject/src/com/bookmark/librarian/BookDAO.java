@@ -14,7 +14,7 @@ import com.bookmark.vo.BookWithCategoryVO;
 import com.bookmark.vo.CategoryVO;
 
 
-public class LibrarianDAO {
+public class BookDAO {
 	
 
 	DataSource ds = new DataSource();
