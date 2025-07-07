@@ -43,6 +43,7 @@ public class LibrarianSelectClass {
 			public void managingBook() {
 				
 			}
+			
 	public void showLibrarian(String userName, String userRole) {
 		// if member role == lib
 			System.out.println("LIBRARIAN MENU | 1. MY INFORMATION | 2. BOOK MANAGING | 3. LOG OUT");

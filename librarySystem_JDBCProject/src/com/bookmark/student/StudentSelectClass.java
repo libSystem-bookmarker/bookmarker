@@ -1,5 +1,7 @@
 package com.bookmark.student;
 
+import java.sql.SQLException;
+
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
 import com.bookmark.commondao.MemberCommonDAO;
@@ -9,8 +11,12 @@ public class StudentSelectClass {
 	DataSource ds = new DataSource();
 	StudentDAO studentDAO = new StudentDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
+	CartDAO cartDAO = new CartDAO();
 	
-	//student's select
+		/**
+		 * @author ys.kim
+		 * 학생 정보 수정 및 조회하는 switch 문
+		 */
 		public void managingStudent() {
 			System.out.println(
 					Session.loggedInUser.getName()+"'s page | 1. MY INFORMATION | 2. UPDATE MY INFORMATION | 3. RETURN TO STUDENT PAGE");
@@ -34,18 +40,35 @@ public class StudentSelectClass {
 			}
 		}
 		
+		/**
+		 * @author ys.kim
+		 * cart 조회, 삭제, 대여
+		 */
+		public void cartInfo () {
+			
+			System.out.println("check method");
+		}
+		
+		/**
+		 * @author ys.kim
+		 * 학생이 대여한 정보 조회 및 장바구니 기능 switch 문
+		 * @throws SQLException 
+		 */
 		public void managingBookInfo() {
+			
+			//get user information
+			int userId = Session.loggedInUser.getUser_id();
 			System.out.println(
-					Session.loggedInUser.getName()+"'s page | 1. MY LOAN LIST | 2. MY RETURN LIST MY OVERDUE LIST | 3. MY OVERDUE LIST | 4. RETURN TO STUDENT PAGE");
+					Session.loggedInUser.getName()+"'s page | 1. MY LOAN LIST | 2. My Cart | 4. RETURN TO STUDENT PAGE");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
-			case 1: {
+			case 1: { studentDAO.loanedBookList(userId);
 				break;
 			}
-			case 2: {
+			case 2: { cartInfo ();
 				break;
 			}
-			case 3: {
+			case 3: { cartDAO.getCartByUserId(userId);
 				break;
 			}
 			case 4: {
@@ -58,6 +81,13 @@ public class StudentSelectClass {
 			}
 		}
 
+		/**
+		 * @author ys.kim
+		 * @param userName
+		 * @param userRole
+		 * 학생의 이름, 롤을 세션을 통해 받아와 동작하는 switch 문
+		 * @throws SQLException 
+		 */
 		public void showStudent(String userName, String userRole) {
 			// if member role == admin
 			// else if member role == student
