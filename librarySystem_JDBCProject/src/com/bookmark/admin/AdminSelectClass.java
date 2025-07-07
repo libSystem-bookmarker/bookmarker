@@ -9,6 +9,10 @@ public class AdminSelectClass {
 	DataSource ds = new DataSource();
 	
 	// MEMBER switch
+	/**
+	 * @author ys.kim
+	 * 회원 관리 switch 문
+	 */
 	public void managingMember() {
 
 		System.out.println(
@@ -64,6 +68,10 @@ public class AdminSelectClass {
 		}
 
 	// MAJOR switch
+	/**
+	 * @author ys.kim
+	 * 전공 관리 switch 문
+	 */
 	public void managingMajor() {
 		System.out.println(
 				"MAJOR MANAGER MENU | 1. INSERT MAJOR | 2. UPDATE MAJOR | 3. MAJOR LIST | 4. DELETE MAJOR | 5. RETURN TO ADMIN PAGE");
@@ -96,6 +104,12 @@ public class AdminSelectClass {
 
 	}
 
+	/**
+	 * @author ys.kim
+	 * @param userName
+	 * @param userRole
+	 * 현재 로그인한 사람의 정보를 받아와 switch 제어
+	 */
 	public void showViewAdmin(String userName, String userRole) {
 		// if member role == admin
 		System.out.println("ADMIN MENU | 1. MEMBER MANAGER | 2. MAJOR MANAGER | 3. LOG OUT");

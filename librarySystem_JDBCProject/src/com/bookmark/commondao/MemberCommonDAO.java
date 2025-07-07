@@ -18,7 +18,12 @@ public class MemberCommonDAO {
 	// memberVO
 	MemberVO memberVO = new MemberVO();
 
-	// login 판단 & get user role
+	/**
+	 * @author ys.kim
+	 * @param inputId
+	 * @param inputPw
+	 * 아이디, 비밀번호를 확인해 로그인 하는 메서드
+	 */
 	public boolean loginMember(String inputId, String inputPw) {
 
 		try {
@@ -58,7 +63,10 @@ public class MemberCommonDAO {
 		return false;
 	}
 
-	// select user information details
+	/**
+	 * @author ys.kim
+	 * 현재 로그인 한 사용자의 상세 정보를 출력하는 메서드
+	 */
 	public void userDetails() {
 		System.out.println("===== USER DETAIL INFORMATION =====");
 		Connection con = null;
@@ -99,7 +107,10 @@ public class MemberCommonDAO {
 		}
 	}
 	
-	// update user information | student -> name, pw, phone number, address
+	/**
+	 * @author ys.kim
+	 * 현재 로그인한 사용자의 롤에 따라 한정된 정보 수정
+	 */
 	public void updateMember() {
 	    Connection con = null;
 	    System.out.println("===== UPDATE USER INFO =====");

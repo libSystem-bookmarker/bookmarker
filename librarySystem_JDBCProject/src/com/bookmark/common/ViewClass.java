@@ -1,5 +1,7 @@
 package com.bookmark.common;
 
+import java.sql.SQLException;
+
 import com.bookmark.admin.AdminSelectClass;
 import com.bookmark.commondao.MemberCommonDAO;
 import com.bookmark.librarian.LibrarianSelectClass;
@@ -13,6 +15,11 @@ public class ViewClass {
 	LibrarianSelectClass librarianSelect = new LibrarianSelectClass();
 	StudentSelectClass studentSelect = new StudentSelectClass();
 
+	/**
+	 * @author ys.kim
+	 * 현재 로그인 한 사용자의 role에 따라 출력되는 메뉴가 달라지도록 설정한 반복문
+	 * @throws SQLException 
+	 */
 	public void showView() {
 		while (true) {
 			if (Session.loggedInUser == null) {
