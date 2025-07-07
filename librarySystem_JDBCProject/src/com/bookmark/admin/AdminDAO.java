@@ -43,7 +43,6 @@ public class AdminDAO {
 				if (memberVO.getMajor_id() % 10 != 0) {
 					System.out.println("fail");
 				} else {
-
 					String sqlInsert = "INSERT INTO MEMBER (user_id, pw, name, role, phone_number, address, major_id) VALUES (memberNo_seq.nextval,'1234', ?,?,?,?,?)";
 					pstmt = con.prepareStatement(sqlInsert);
 					pstmt.setString(1, memberVO.getName());
@@ -618,16 +617,13 @@ public class AdminDAO {
 		try {
 			con = ds.getConnection();
 
-			String sql = """
-				    SELECT 
-				        LPAD(' ', LEVEL * 2) || major_name AS major_hierarchy,
-				        major_id,
-				        parent_id
-				    FROM major
-				    START WITH parent_id IS NULL
-				    CONNECT BY PRIOR major_id = parent_id
-				    ORDER SIBLINGS BY major_name
-				""";
+			String sql ="SELECT \r\n"
+					+ "    LPAD(' ', LEVEL * 2) || major_name AS major_hierarchy,\r\n"
+					+ "    major_id,\r\n"
+					+ "    parent_id\r\n"
+					+ "FROM major\r\n"
+					+ "START WITH parent_id IS NULL\r\n"
+					+ "CONNECT BY PRIOR major_id = parent_id";
 
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
