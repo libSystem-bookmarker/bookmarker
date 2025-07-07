@@ -78,7 +78,7 @@ public class MemberCommonDAO {
 
 			// sql
 			String memberDetailSql = "SELECT " + "    member.user_id, " + "    member.name, " + "    member.role, "
-					+ "    major.name AS major_name " + "FROM " + "    member " + "INNER JOIN "
+					+ "    major.major_name AS major_name " + "FROM " + "    member " + "INNER JOIN "
 					+ "    major ON major.major_id = member.major_id " + "WHERE " + "    member.user_id=" + userId;
 			pstmt = con.prepareStatement(memberDetailSql);
 			rs = pstmt.executeQuery();
