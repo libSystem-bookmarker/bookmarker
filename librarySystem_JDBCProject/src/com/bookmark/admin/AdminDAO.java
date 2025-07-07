@@ -38,6 +38,7 @@ public class AdminDAO {
 				System.out.println("address: ");
 				memberVO.setAddress(ds.sc.nextLine());
 				System.out.println("major id: (10,20,30,...150)");
+				majorList();
 				memberVO.setMajor_id(Integer.parseInt(ds.sc.nextLine()));
 				if (memberVO.getMajor_id() % 10 != 0) {
 					System.out.println("fail");
@@ -367,7 +368,7 @@ public class AdminDAO {
 				    "    member.user_id, " +
 				    "    member.name, " +
 				    "    member.role, " +
-				    "    major.name AS major_name " +
+				    "    major.major_name AS major_name " +
 				    "FROM " +
 				    "    member " +
 				    "INNER JOIN " +
@@ -450,17 +451,26 @@ public class AdminDAO {
 		System.out.println("===== CREATE NEW MAJOR =====");
 
 		PreparedStatement pstmt = null;
-
 		try {
+			//SHOW MAJOR LIST
+			// 1. department list 출력
+			departmentList();
+			
 			con = ds.getConnection();
 			con.setAutoCommit(false);
 
-			System.out.print("major name: ");
-			majorVO.setName(ds.sc.nextLine());
-
-			String sqlInsert = "INSERT INTO MAJOR (major_id, name) VALUES (majorNo_seq.nextval,?)";
+			System.out.print("SELECT 학부 No: ");
+			int parentId = Integer.parseInt(ds.sc.nextLine());
+			
+			majorListWithDept (parentId);
+			
+			System.out.println("Enter the new major name: ");
+			String majorName = ds.sc.nextLine();
+			
+			String sqlInsert = "INSERT INTO major (major_id, major_name, parent_id) VALUES (majorNo_seq.NEXTVAL, ?, "+parentId+")";
 			pstmt = con.prepareStatement(sqlInsert);
-			pstmt.setString(1, majorVO.getName());
+			
+			pstmt.setString(1, majorName);
 
 			int result = pstmt.executeUpdate();
 
@@ -499,19 +509,22 @@ public class AdminDAO {
 	    PreparedStatement pstmt = null;
 
 	    try {
-	        // 1. major list 출력
-	        majorList();
+	    	//SHOW MAJOR LIST
+			// 1. department list 출력
+			departmentList();
+			
+			con = ds.getConnection();
+			con.setAutoCommit(false);
 
-	        // 2. DB 연결
-	        con = ds.getConnection();
-	        con.setAutoCommit(false);
-
-	        // 3. 수정할 ID 입력
-	        System.out.println("Enter the major ID to update: ");
-	        int updateID = Integer.parseInt(ds.sc.nextLine());
+			System.out.print("SELECT 학부 No: ");
+			int parentId = Integer.parseInt(ds.sc.nextLine());
+			majorListWithDept(parentId);
+			
+			System.out.print("SELECT 학과 No: ");
+			int majorId = Integer.parseInt(ds.sc.nextLine());
 
 	        // 4. 확인
-	        System.out.println("Are you sure you want to update this major? " + updateID + " (y / n): ");
+	        System.out.println("Are you sure you want to update this major? " + majorId + " (y / n): ");
 	        String confirm = ds.sc.nextLine();
 	        if (confirm.equalsIgnoreCase("n")) {
 	            System.out.println("update canceled!");
@@ -523,10 +536,10 @@ public class AdminDAO {
 	        String updateName = ds.sc.nextLine();
 
 	        // 6. UPDATE 실행
-	        String updateSql = "UPDATE major SET name = ? WHERE major_id = ?";
+	        String updateSql = "UPDATE major SET major_name = ? WHERE major_id = ?";
 	        pstmt = con.prepareStatement(updateSql);
 	        pstmt.setString(1, updateName);
-	        pstmt.setInt(2, updateID);
+	        pstmt.setInt(2, majorId);
 
 	        int result = pstmt.executeUpdate();
 	        if (result > 0) {
@@ -552,28 +565,29 @@ public class AdminDAO {
 	        ds.closeConnection(con);
 	    }
 	}
-
-
-	// major list -> all
-	public void majorList() {
+	
+	//major list -> select dept id
+	public void majorListWithDept (int parentId) {
 		Connection con = null;
 		System.out.println("===== SHOW MAJOR LIST =====");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		
 		try {
 			con = ds.getConnection();
-
-			// sql
-			String majorListSql = "select major_id, name from major";
-			pstmt = con.prepareStatement(majorListSql);
+			
+			//sql
+			String majorDeptListSql = "SELECT major_id, major_name, parent_id FROM major WHERE parent_id = "+parentId;
+			
+			pstmt = con.prepareStatement(majorDeptListSql);
 			rs = pstmt.executeQuery();
-
-			System.out.println("[ MAJOR LIST ]");
-			while (rs.next()) {
+			
+			System.out.println("[ MAJOR DEPT LIST ]");
+			while(rs.next()) {
 				int id = rs.getInt("major_id");
-				String majorName = rs.getString("name");
-				System.out.printf("\"ID: %-10d | NAME: %-10s\n", id, majorName);
+				String majorName = rs.getString("major_name");
+				int deptId = rs.getInt("parent_id");
+				System.out.printf("MAJOR ID: %-4d | NAME: %-6s| DEPT ID: %-6d\n", id, majorName, deptId);
 			}
 		} catch (SQLException e) {
 			System.out.println("Failed to fetch major list: " + e.getMessage());
@@ -590,7 +604,107 @@ public class AdminDAO {
 			}
 			ds.closeConnection(con);
 		}
+		
+	}
 
+
+	// major list -> all
+	public void majorList() {
+		Connection con = null;
+		System.out.println("===== SHOW MAJOR LIST =====");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+
+			String sql = """
+				    SELECT 
+				        LPAD(' ', LEVEL * 2) || major_name AS major_hierarchy,
+				        major_id,
+				        parent_id
+				    FROM major
+				    START WITH parent_id IS NULL
+				    CONNECT BY PRIOR major_id = parent_id
+				    ORDER SIBLINGS BY major_name
+				""";
+
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+
+				System.out.println("[ MAJOR HIERARCHY LIST ]");
+				System.out.println("---------------------------------------------------------------------------------");
+				System.out.printf("| %-30s | %-10s | %-10s |\n", "HIERARCHY NAME", "MAJOR ID", "PARENT ID");
+				System.out.println("---------------------------------------------------------------------------------");
+
+				while (rs.next()) {
+				    String hierarchyName = rs.getString("major_hierarchy");
+				    int majorId = rs.getInt("major_id");
+				    int parentId = rs.getInt("parent_id"); // 이 값이 null이면 0으로 출력됨 → 아래 참고
+
+				    // null 처리: parent_id가 0이면 "NULL"로 출력
+				    String parentIdStr = rs.wasNull() ? " " : String.valueOf(parentId);
+
+				    System.out.printf("| %-30s | %-10d | %-10s |\n", hierarchyName, majorId, parentIdStr);
+				}
+				System.out.println("---------------------------------------------------------------------------------");
+
+		} catch (SQLException e) {
+			System.out.println("Failed to fetch major list: " + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ds.closeConnection(con);
+		}
+
+	}
+	
+	public void departmentList() {
+		Connection con = null;
+		System.out.println("===== SHOW DEPARTMENT LIST =====");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			
+			//sql
+			String deptListSql = "SELECT major_name, major_id\r\n"
+					+ "FROM major\r\n"
+					+ "WHERE parent_id IS NULL";
+			
+			pstmt = con.prepareStatement(deptListSql);
+			rs = pstmt.executeQuery();
+			
+			System.out.println("[ DEPARTMENT LIST ]");
+			while(rs.next()) {
+				int id = rs.getInt("major_id");
+				String majorName = rs.getString("major_name");
+				System.out.printf("\"ID: %-10d | NAME: %-10s\n", id, majorName);
+			}
+		} catch(SQLException e) {
+			System.out.println("Failed to fetch major list: " + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ds.closeConnection(con);
+		}
 	}
 
 	// delete major -> delete id and name
