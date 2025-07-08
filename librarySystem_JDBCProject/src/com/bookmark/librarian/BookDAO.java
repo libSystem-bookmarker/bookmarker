@@ -548,6 +548,7 @@ public class BookDAO {
 		
 		Connection con = null;
 		
+		
 	    String sql = "SELECT "
 	               + "  book_id AS bookId, "
 	               + "  category_id AS categoryId, "

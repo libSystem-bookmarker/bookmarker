@@ -1,5 +1,6 @@
 package com.bookmark.librarian;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -83,16 +84,22 @@ public class BookCRUD {
 		        	 // 결과 출력
 			        System.out.println("\n📘 도서 목록:");
 			        for (BookWithCategoryVO book : searchResults) {
-			            System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-			                book.getBookId(),
-			                book.getCategoryId(),
-			                book.getCategoryName(),
-			                book.getTitle(),
-			                book.getAuthor(),
-			                book.getPublisher(),
-			                book.getCreateAt().toString(),
-			                book.getTotalCount()
-			            );
+			        	System.out.println();
+			        	System.out.printf("📘 [ID: %-3d] 📂 카테고리: %-2s[%d]\n", 
+			                    book.getBookId(),
+			                    book.getCategoryName(),
+			                    book.getCategoryId()
+			                    );
+
+						  System.out.printf("    📕 제목: %-20s | 👤 작가: %-5s | 🏢 출판사: %-5s\n", 
+						                    book.getTitle(), 
+						                    book.getAuthor(), 
+						                    book.getPublisher());
+			
+						  System.out.printf("    📅 출판일: %s  📦 수량: %d권\n", 
+						                    new SimpleDateFormat("yyyy-MM-dd").format(book.getCreateAt()), 
+						                    book.getTotalCount());
+						  System.out.println("----------------------------------------------------------------------------");
 			        }
 			        
 		        }
@@ -142,9 +149,14 @@ public class BookCRUD {
 				
 			// 도서 수정
 	        case 3:
-	    		System.out.println("수정할 도서 ID를 입력하세요.");
+	    		System.out.println("수정할 도서 ID를 입력하세요.(0. 이전으로)");
 	    		System.out.print("도서 ID : ");
 	    		int updateId = sc.nextInt();
+	    		
+	    		if (updateId == 0) {
+	    		    System.out.println("↩️ 이전 메뉴로 돌아갑니다.");
+	    		    return;
+	    		}
 	    		
 	    		try {
 	    			BookVO findBook = dao.getBookById(updateId);
@@ -164,6 +176,9 @@ public class BookCRUD {
 	        case 4:
 	        	// 도서 삭제
 	    		System.out.print("🗑 삭제할 도서 ID를 입력하세요. ");
+	    		
+	    		// 
+	    		
 	    		System.out.print("도서 ID : ");
 	    		int deleteId = sc.nextInt();
 	    		
