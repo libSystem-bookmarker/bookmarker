@@ -15,7 +15,7 @@ public class StudentSelectClass {
 	BookDAO bookDao = new BookDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
 
-	//CartDAO cartDAO = new CartDAO();
+	CartDAO cartDAO = new CartDAO();
 
 	LoanSystem loanSystem = new LoanSystem();
 
@@ -26,7 +26,7 @@ public class StudentSelectClass {
 		 */
 		public void managingStudent() {
 			System.out.println(
-					Session.loggedInUser.getName()+"'s page | 1. MY INFORMATION | 2. UPDATE MY INFORMATION | 3. RETURN TO STUDENT PAGE");
+					Session.loggedInUser.getName()+"'s page | 1. 나의 정보 | 2. 나의 정보 수정 | 0. 이전 페이지로 돌아가기");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: {
@@ -37,7 +37,7 @@ public class StudentSelectClass {
 				mcDAO.updateMember();
 				break;
 			}
-			case 3: {
+			case 0: {
 				System.out.println("return to my information page");
 				return; }
 
@@ -47,14 +47,6 @@ public class StudentSelectClass {
 			}
 		}
 		
-		/**
-		 * @author ys.kim
-		 * cart 조회, 삭제, 대여
-		 */
-		public void cartInfo () {
-			
-			
-		}
 		
 		/**
 		 * @author ys.kim
@@ -66,19 +58,19 @@ public class StudentSelectClass {
 			//get user information
 			int userId = Session.loggedInUser.getUser_id();
 			System.out.println(
-					Session.loggedInUser.getName()+"'s page | 1. MY LOAN LIST | 2. My Cart | 4. RETURN TO STUDENT PAGE");
+					Session.loggedInUser.getName()+"'s page | 1. 대출 내역 | 2. 장바구니 | 0. 이전 페이지로 돌아가기");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: { studentDAO.loanedBookList(userId);
 				break;
 			}
-			case 2: { studentDAO.viewCartAndSelectOption(userId);
+			case 2: {  cartDAO.selectCartUserId(userId);
 				break;
 			}
-			case 3: { //cartDAO.getCartByUserId(userId);
+			case 3: { 
 				break;
 			}
-			case 4: {
+			case 0: {
 				System.out.println("return to my book info page");
 				return; }
 
@@ -93,35 +85,38 @@ public class StudentSelectClass {
 		 * @param userName
 		 * @param userRole
 		 * 학생의 이름, 롤을 세션을 통해 받아와 동작하는 switch 문
-		 * @throws SQLException 
+		 * @throws SQLException
+		 * 
+		 * @author ys.kim, yh.cha
+		 * modify: 2025.07.08
 		 */
 		public void showStudent(String userName, String userRole) {
 			// if member role == admin
 			// else if member role == student
-			System.out.println(
-					"STUDENT MENU | 1. MY INFORMATION | 2. MY LIBRARY INFORMATION | 3. LOG OUT | 4. 도서 대출 | 5. 도서 반납");
+			System.out.println("1. 도서 대출 | 2. 도서 반납 | 3. 나의 대출 정보 | 4. 마이 페이지 | 0. 로그아웃");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: {
-				managingStudent();
+				loanSystem.loanBook();
 				break;
 			}
 			case 2: {
-				managingBookInfo();
+				bookDao.returnBookById();
 				break;
 			}
 			case 3:  {
-				System.out.println(userName + " user log out: " + userRole);
-				Session.loggedInUser = null;
+				managingBookInfo();
 				break;
 			}
 			case 4: {
-				System.out.println(userName + " user log out: " + userRole);
-				loanSystem.loanBook();
-//				Session.loggedInUser = null;
+				managingStudent();		
+				break;
 			}
-			case 5:
-				bookDao.returnBookById();
+			case 0:
+				System.out.println(userName + " user log out: " + userRole);
+				Session.loggedInUser = null;
+				break;
+				
 			default:
 				System.out.println("시스템을 종료합니다.");
 

@@ -16,7 +16,7 @@ public class AdminSelectClass {
 	public void managingMember() {
 
 		System.out.println(
-				"MEMBER MANAGER MENU | 1. INSERT MEMBER | 2. UPDATE MEMBER | 3. MEMBER LIST | 4. DELETE MEMBER | 5. RETURN TO ADMIN PAGE");
+				"회원 관리 메뉴 | 1. 회원 생성 | 2.  회원 수정 | 3.회원 목록 | 4. 회원 삭제 | 0. 이전 페이지로 돌아가기");
 		int adminMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (adminMenu) {
 			case 1: {
@@ -28,7 +28,7 @@ public class AdminSelectClass {
 				break;
 			}
 			case 3: {
-				System.out.println("MEMBER MANAGER LIST | 1. MEMBER LIST (ALL) | 2. ADMIN MEMBER LIST | 3. LIBRARIAN MEMBER LIST | 4. STUDENT LSIT |  5. RETURN TO ADMIN PAGE");
+				System.out.println("회원 목록 | 1. 회원 전체 조회 | 2. 관리자 회원 목록 | 3. 사서 회원 목록 | 4. 학생 회원 목록 |  0. 이전 페이지로 돌아가기");
 				int memberListMenu = Integer.parseInt(ds.sc.nextLine());
 				switch (memberListMenu) {
 				case 1:
@@ -43,7 +43,7 @@ public class AdminSelectClass {
 				case 4:
 					adminDAO.memberListFilteringStudent();
 					break;
-				case 5:
+				case 0:
 					System.out.println("return to admin main page");
 					return;
 
@@ -57,7 +57,7 @@ public class AdminSelectClass {
 				adminDAO.deleteMember();
 				break;
 			}
-			case 5: {
+			case 0: {
 				System.out.println("return to admin main page");
 				return;
 			}
@@ -74,7 +74,7 @@ public class AdminSelectClass {
 	 */
 	public void managingMajor() {
 		System.out.println(
-				"MAJOR MANAGER MENU | 1. INSERT MAJOR | 2. UPDATE MAJOR | 3. MAJOR LIST | 4. DELETE MAJOR | 5. RETURN TO ADMIN PAGE");
+				"학과 관리 | 1. 학과 생성 | 2. 학과 수정 | 3. 학과 목록 | 4. 학과 삭제 | 0. 이전 페이지로 돌아가기");
 		int adminMenu = Integer.parseInt(ds.sc.nextLine());
 		switch (adminMenu) {
 		case 1: {
@@ -93,9 +93,9 @@ public class AdminSelectClass {
 			adminDAO.deletemajor();
 			break;
 		}
-		case 5: {
-
-			break;
+		case 0: {
+			System.out.println("return to admin main page");
+			return;
 		}
 		default:
 			System.out.println("잘못된 입력입니다.");
@@ -112,7 +112,7 @@ public class AdminSelectClass {
 	 */
 	public void showViewAdmin(String userName, String userRole) {
 		// if member role == admin
-		System.out.println("ADMIN MENU | 1. MEMBER MANAGER | 2. MAJOR MANAGER | 3. LOG OUT");
+		System.out.println("관리자 | 1. 회원 관리 | 2. 학과 관리 | 0. LOG OUT");
 		int adminSelectMenu = Integer.parseInt(ds.sc.nextLine());
 
 		switch (adminSelectMenu) {
@@ -122,7 +122,7 @@ public class AdminSelectClass {
 		case 2:
 			managingMajor();
 			break;
-		case 3:
+		case 0:
 			System.out.println(userName + " user log out: " + userRole);
 			Session.loggedInUser = null;
 			break;

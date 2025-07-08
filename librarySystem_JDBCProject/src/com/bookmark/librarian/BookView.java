@@ -3,8 +3,7 @@ package com.bookmark.librarian;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
+import com.bookmark.common.DataSource;
 import com.bookmark.vo.BookVO;
 import com.bookmark.vo.BookWithCategoryVO;
 import com.bookmark.vo.CategoryVO;
@@ -13,9 +12,7 @@ public class BookView {
 	
 	private BookDAO dao = new BookDAO();
 	private int lastBookId = 1;
-	
-	Scanner sc = new Scanner(System.in);
-	
+	DataSource ds = new DataSource();	
 	
 	
 //	// 도서 전체 목록 보기 콘솔
@@ -57,7 +54,7 @@ public class BookView {
 //				System.out.println("--------------------------------------------------");
 //				System.out.print("▶ 카테고리 ID 입력: ");
 //
-//				int categoryId = scanner.nextInt();
+//				int categoryId = ds.scanner.nextInt();
 //				
 //				List<BookWithCategoryVO> bookList = new ArrayList<>();
 //				
@@ -98,7 +95,7 @@ public class BookView {
 //		
 //		// 도서 검색
 //		System.out.print("🔎 검색할 키워드를 입력하세요.(제목 또는 작가): ");
-//		String keyword = scanner.nextLine();
+//		String keyword = ds.scanner.nextLine();
 //
 //		List<BookWithCategoryVO> results = dao.getSearchBooks(keyword);
 //
@@ -145,19 +142,19 @@ public class BookView {
 			try {
 				
 				System.out.print("📕 책 제목          : ");
-				book.setTitle(sc.next());
+				book.setTitle(ds.sc.nextLine());
 				
 				System.out.print("👤 작가             : ");
-				book.setAuthor(sc.next());
+				book.setAuthor(ds.sc.nextLine());
 
 				System.out.print("🏢 출판사           : ");
-				book.setPublisher(sc.next());
+				book.setPublisher(ds.sc.nextLine());
 
 				System.out.print("📅 출판일 (yyyy-MM-dd): ");
-				book.setCreateAt(Date.valueOf(sc.next()));  // java.sql.Date로 변환
+				book.setCreateAt(Date.valueOf(ds.sc.nextLine()));  // java.sql.Date로 변환
 
 				System.out.print("📦 소장 수량(권)    : ");
-				book.setTotalCount(sc.nextInt());
+				book.setTotalCount(Integer.parseInt(ds.sc.nextLine()));
 				
 				System.out.println("📂 등록 가능한 카테고리 목록");
 				System.out.println("-----------------------------------");
@@ -169,7 +166,7 @@ public class BookView {
 				System.out.println("-----------------------------------");
 				System.out.print("📂 카테고리 ID를 선택하세요 (1~10): ");
 				
-				book.setCategoryId(sc.nextInt());
+				book.setCategoryId(Integer.parseInt(ds.sc.nextLine()));
 				
 				System.out.println(book);
 				
@@ -199,14 +196,14 @@ public class BookView {
 			        System.out.println("6. 카테고리 ID");
 			        System.out.print("선택 ▶ ");
 			        
-			        if (!sc.hasNextInt()) {
+			        if (!ds.sc.hasNextInt()) {
 			            System.out.println("❌ 숫자를 입력해 주세요.");
-			            sc.nextLine(); // 버퍼 비우기
+			            ds.sc.nextLine(); // 버퍼 비우기
 			            continue;
 			        }
 
-			        int num = sc.nextInt();
-			        sc.nextLine(); // 버퍼 정리
+			        int num = Integer.parseInt(ds.sc.nextLine());
+			        ds.sc.nextLine(); // 버퍼 정리
 			        
 			        switch (num) {
 			            case 0:
@@ -215,23 +212,23 @@ public class BookView {
 
 			            case 1:
 			                System.out.print("📕 새 제목: ");
-			                book.setTitle(sc.nextLine());
+			                book.setTitle(ds.sc.nextLine());
 			                break;
 
 			            case 2:
 			                System.out.print("👤 새 작가: ");
-			                book.setAuthor(sc.nextLine());
+			                book.setAuthor(ds.sc.nextLine());
 			                break;
 
 			            case 3:
 			                System.out.print("🏢 새 출판사: ");
-			                book.setPublisher(sc.nextLine());
+			                book.setPublisher(ds.sc.nextLine());
 			                break;
 
 			            case 4:
 			                System.out.print("📅 새 출판일 (yyyy-MM-dd): ");
 			                try {
-			                    book.setCreateAt(Date.valueOf(sc.nextLine()));
+			                    book.setCreateAt(Date.valueOf(ds.sc.nextLine()));
 			                } catch (IllegalArgumentException e) {
 			                    System.out.println("❌ 잘못된 날짜 형식입니다. 다시 입력하세요.");
 			                }
@@ -239,12 +236,12 @@ public class BookView {
 
 			            case 5:
 			                System.out.print("📦 새 소장 수량: ");
-			                if (sc.hasNextInt()) {
-			                    book.setTotalCount(sc.nextInt());
-			                    sc.nextLine();
+			                if (ds.sc.hasNextInt()) {
+			                    book.setTotalCount(Integer.parseInt(ds.sc.nextLine()));
+			                    ds.sc.nextLine();
 			                } else {
 			                    System.out.println("❌ 숫자를 입력해 주세요.");
-			                    sc.nextLine(); // 잘못된 입력 버림
+			                    ds.sc.nextLine(); // 잘못된 입력 버림
 			                }
 			                break;
 
@@ -254,12 +251,12 @@ public class BookView {
 							System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
 							System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
 							System.out.println("--------------------------------------------------");
-			                if (sc.hasNextInt()) {
-			                    book.setCategoryId(sc.nextInt());
-			                    sc.nextLine();
+			                if (ds.sc.hasNextInt()) {
+			                    book.setCategoryId(Integer.parseInt(ds.sc.nextLine()));
+			                    ds.sc.nextLine();
 			                } else {
 			                    System.out.println("❌ 숫자를 입력해 주세요.");
-			                    sc.nextLine(); // 잘못된 입력 버림
+			                    ds.sc.nextLine(); // 잘못된 입력 버림
 			                }
 			                break;
 			            default:
