@@ -14,7 +14,8 @@ public class BookView {
 	private BookDAO dao = new BookDAO();
 	private int lastBookId = 1;
 	
-	Scanner scanner = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);
+	
 	
 	
 //	// 도서 전체 목록 보기 콘솔
@@ -43,83 +44,83 @@ public class BookView {
 //
 //	    System.out.println("==========================================================================================================");
 //		}
-	
-	
-	
-	// 카테고리로 도서 조회 콘솔
-	public void inputCategoryBook() {
-		// 카테고리에 따른 도서 조회
-				System.out.println("📚 열람하고 싶은 도서의 카테고리 ID를 입력하세요.");
-				System.out.println("--------------------------------------------------");
-				System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
-				System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
-				System.out.println("--------------------------------------------------");
-				System.out.print("▶ 카테고리 ID 입력: ");
-
-				int categoryId = scanner.nextInt();
-				
-				List<BookWithCategoryVO> bookList = new ArrayList<>();
-				
-				try {
-					bookList = dao.getBooksByCategory(categoryId);
-				}catch(RuntimeException e) {
-					System.out.println("❌ 도서 조회 중 오류 발생: " + e.getMessage());
-					return;
-				}
-				
-				if (bookList.isEmpty()) {
-			        System.out.println("📭 해당 카테고리에 등록된 도서가 없습니다.");
-			        return;
-			    }
-					
-			    System.out.println("\n📚 해당 카테고리의 도서 목록:");
-			    System.out.println("----------------------------------------------------------------------------------------------------------");
-			    for (BookWithCategoryVO book : bookList) {
-			        System.out.printf("📘 [ID:%d] [카테고리: %s[%d] ] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량 : %d권\n",
-			                book.getBookId(), 
-			                book.getCategoryName(),
-			                book.getCategoryId(),
-			                book.getTitle(),
-			                book.getAuthor(),
-			                book.getPublisher(),
-			                book.getCreateAt().toString(),
-			                book.getTotalCount()
-			        );
-			    }
-
-			    System.out.println("----------------------------------------------------------------------------------------------------------");
-	}
-	
-	
-	
-	// 도서 검색 콘솔
-	public void inputSearchBook() {
-		
-		// 도서 검색
-		System.out.print("🔎 검색할 키워드를 입력하세요.(제목 또는 작가): ");
-		String keyword = scanner.nextLine();
-
-		List<BookWithCategoryVO> results = dao.getSearchBooks(keyword);
-
-		if (results.isEmpty()) {
-		    System.out.println("📭 검색 결과가 없습니다.");
-		} else {
-		    System.out.println("\n🔍 검색 결과:");
-		    for (BookWithCategoryVO book : results) {
-		        System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-		            book.getBookId(),
-		            book.getCategoryId(),
-		            book.getCategoryName(),
-		            book.getTitle(),
-		            book.getAuthor(),
-		            book.getPublisher(),
-		            book.getCreateAt().toString(),
-		            book.getTotalCount()
-		        );
-		    }
-		}
-		
-	}
+//	
+//	
+//	
+//	// 카테고리로 도서 조회 콘솔
+//	public void inputCategoryBook() {
+//		// 카테고리에 따른 도서 조회
+//				System.out.println("📚 열람하고 싶은 도서의 카테고리 ID를 입력하세요.");
+//				System.out.println("--------------------------------------------------");
+//				System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
+//				System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
+//				System.out.println("--------------------------------------------------");
+//				System.out.print("▶ 카테고리 ID 입력: ");
+//
+//				int categoryId = scanner.nextInt();
+//				
+//				List<BookWithCategoryVO> bookList = new ArrayList<>();
+//				
+//				try {
+//					bookList = dao.getBooksByCategory(categoryId);
+//				}catch(RuntimeException e) {
+//					System.out.println("❌ 도서 조회 중 오류 발생: " + e.getMessage());
+//					return;
+//				}
+//				
+//				if (bookList.isEmpty()) {
+//			        System.out.println("📭 해당 카테고리에 등록된 도서가 없습니다.");
+//			        return;
+//			    }
+//					
+//			    System.out.println("\n📚 해당 카테고리의 도서 목록:");
+//			    System.out.println("----------------------------------------------------------------------------------------------------------");
+//			    for (BookWithCategoryVO book : bookList) {
+//			        System.out.printf("📘 [ID:%d] [카테고리: %s[%d] ] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량 : %d권\n",
+//			                book.getBookId(), 
+//			                book.getCategoryName(),
+//			                book.getCategoryId(),
+//			                book.getTitle(),
+//			                book.getAuthor(),
+//			                book.getPublisher(),
+//			                book.getCreateAt().toString(),
+//			                book.getTotalCount()
+//			        );
+//			    }
+//
+//			    System.out.println("----------------------------------------------------------------------------------------------------------");
+//	}
+//	
+//	
+//	
+//	// 도서 검색 콘솔
+//	public void inputSearchBook() {
+//		
+//		// 도서 검색
+//		System.out.print("🔎 검색할 키워드를 입력하세요.(제목 또는 작가): ");
+//		String keyword = scanner.nextLine();
+//
+//		List<BookWithCategoryVO> results = dao.getSearchBooks(keyword);
+//
+//		if (results.isEmpty()) {
+//		    System.out.println("📭 검색 결과가 없습니다.");
+//		} else {
+//		    System.out.println("\n🔍 검색 결과:");
+//		    for (BookWithCategoryVO book : results) {
+//		        System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
+//		            book.getBookId(),
+//		            book.getCategoryId(),
+//		            book.getCategoryName(),
+//		            book.getTitle(),
+//		            book.getAuthor(),
+//		            book.getPublisher(),
+//		            book.getCreateAt().toString(),
+//		            book.getTotalCount()
+//		        );
+//		    }
+//		}
+//		
+//	}
 		
 		
 	
@@ -137,26 +138,26 @@ public class BookView {
 		
 		System.out.println("\n📚 ================================");
 		System.out.println("📖 새 책 등록을 시작합니다.");
-		System.out.println("🖊️  아래 정보를 입력해 주세요.");
+		System.out.println("🖊️ 아래 정보를 입력해 주세요.");
 		System.out.println("==================================");
 		
 		
 			try {
 				
 				System.out.print("📕 책 제목          : ");
-				book.setTitle(scanner.next());
+				book.setTitle(sc.next());
 				
 				System.out.print("👤 작가             : ");
-				book.setAuthor(scanner.next());
+				book.setAuthor(sc.next());
 
 				System.out.print("🏢 출판사           : ");
-				book.setPublisher(scanner.next());
+				book.setPublisher(sc.next());
 
 				System.out.print("📅 출판일 (yyyy-MM-dd): ");
-				book.setCreateAt(Date.valueOf(scanner.next()));  // java.sql.Date로 변환
+				book.setCreateAt(Date.valueOf(sc.next()));  // java.sql.Date로 변환
 
 				System.out.print("📦 소장 수량(권)    : ");
-				book.setTotalCount(scanner.nextInt());
+				book.setTotalCount(sc.nextInt());
 				
 				System.out.println("📂 등록 가능한 카테고리 목록");
 				System.out.println("-----------------------------------");
@@ -168,7 +169,7 @@ public class BookView {
 				System.out.println("-----------------------------------");
 				System.out.print("📂 카테고리 ID를 선택하세요 (1~10): ");
 				
-				book.setCategoryId(scanner.nextInt());
+				book.setCategoryId(sc.nextInt());
 				
 				System.out.println(book);
 				
@@ -198,14 +199,14 @@ public class BookView {
 			        System.out.println("6. 카테고리 ID");
 			        System.out.print("선택 ▶ ");
 			        
-			        if (!scanner.hasNextInt()) {
+			        if (!sc.hasNextInt()) {
 			            System.out.println("❌ 숫자를 입력해 주세요.");
-			            scanner.nextLine(); // 버퍼 비우기
+			            sc.nextLine(); // 버퍼 비우기
 			            continue;
 			        }
 
-			        int num = scanner.nextInt();
-			        scanner.nextLine(); // 버퍼 정리
+			        int num = sc.nextInt();
+			        sc.nextLine(); // 버퍼 정리
 			        
 			        switch (num) {
 			            case 0:
@@ -214,23 +215,23 @@ public class BookView {
 
 			            case 1:
 			                System.out.print("📕 새 제목: ");
-			                book.setTitle(scanner.nextLine());
+			                book.setTitle(sc.nextLine());
 			                break;
 
 			            case 2:
 			                System.out.print("👤 새 작가: ");
-			                book.setAuthor(scanner.nextLine());
+			                book.setAuthor(sc.nextLine());
 			                break;
 
 			            case 3:
 			                System.out.print("🏢 새 출판사: ");
-			                book.setPublisher(scanner.nextLine());
+			                book.setPublisher(sc.nextLine());
 			                break;
 
 			            case 4:
 			                System.out.print("📅 새 출판일 (yyyy-MM-dd): ");
 			                try {
-			                    book.setCreateAt(Date.valueOf(scanner.nextLine()));
+			                    book.setCreateAt(Date.valueOf(sc.nextLine()));
 			                } catch (IllegalArgumentException e) {
 			                    System.out.println("❌ 잘못된 날짜 형식입니다. 다시 입력하세요.");
 			                }
@@ -238,23 +239,27 @@ public class BookView {
 
 			            case 5:
 			                System.out.print("📦 새 소장 수량: ");
-			                if (scanner.hasNextInt()) {
-			                    book.setTotalCount(scanner.nextInt());
-			                    scanner.nextLine();
+			                if (sc.hasNextInt()) {
+			                    book.setTotalCount(sc.nextInt());
+			                    sc.nextLine();
 			                } else {
 			                    System.out.println("❌ 숫자를 입력해 주세요.");
-			                    scanner.nextLine(); // 잘못된 입력 버림
+			                    sc.nextLine(); // 잘못된 입력 버림
 			                }
 			                break;
 
 			            case 6:
 			                System.out.print("📂 새 카테고리 ID (1~10): ");
-			                if (scanner.hasNextInt()) {
-			                    book.setCategoryId(scanner.nextInt());
-			                    scanner.nextLine();
+							System.out.println("--------------------------------------------------");
+							System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
+							System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
+							System.out.println("--------------------------------------------------");
+			                if (sc.hasNextInt()) {
+			                    book.setCategoryId(sc.nextInt());
+			                    sc.nextLine();
 			                } else {
 			                    System.out.println("❌ 숫자를 입력해 주세요.");
-			                    scanner.nextLine(); // 잘못된 입력 버림
+			                    sc.nextLine(); // 잘못된 입력 버림
 			                }
 			                break;
 			            default:
