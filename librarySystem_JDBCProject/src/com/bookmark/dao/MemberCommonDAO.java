@@ -66,6 +66,10 @@ public class MemberCommonDAO {
 	/**
 	 * @author ys.kim
 	 * 현재 로그인 한 사용자의 상세 정보를 출력하는 메서드
+	 * 
+	 * @modify ys.kim
+	 * 20250708
+	 * 쿼리 수정
 	 */
 	public void userDetails() {
 		System.out.println("===== USER DETAIL INFORMATION =====");
@@ -77,9 +81,17 @@ public class MemberCommonDAO {
 			int userId = Session.loggedInUser.getUser_id();
 
 			// sql
-			String memberDetailSql = "SELECT " + "    member.user_id, " + "    member.name, " + "    member.role, "
-					+ "    major.major_name AS major_name " + "FROM " + "    member " + "INNER JOIN "
-					+ "    major ON major.major_id = member.major_id " + "WHERE " + "    member.user_id=" + userId;
+			String memberDetailSql = "SELECT \r\n"
+					+ "    member.user_id, \r\n"
+					+ "    member.name, \r\n"
+					+ "    member.role, \r\n"
+					+ "    major.major_name AS major_name \r\n"
+					+ "FROM \r\n"
+					+ "    member \r\n"
+					+ "LEFT JOIN \r\n"
+					+ "    major ON major.major_id = member.major_id \r\n"
+					+ "WHERE \r\n"
+					+ "    member.user_id ="+userId;
 			pstmt = con.prepareStatement(memberDetailSql);
 			rs = pstmt.executeQuery();
 
