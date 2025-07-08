@@ -27,8 +27,12 @@ public class StudentSelectClass {
 		 * 학생 정보 수정 및 조회하는 switch 문
 		 */
 		public void managingStudent() {
-			System.out.println(
-					Session.loggedInUser.getName()+"'s page | 1. 나의 정보 | 2. 나의 정보 수정 | 0. 이전 페이지로 돌아가기");
+			
+			System.out.println("📚 " + 
+					Session.loggedInUser.getName()+"님 정보");
+				System.out.println("============================================================");
+				System.out.printf("%-20s %-20s %-10s\n", "1. 👤 내 정보 조회", "2. 📘 내 정보 수정", "0. 이전 페이지로");
+				System.out.print("▶▶ ");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: {
@@ -40,7 +44,7 @@ public class StudentSelectClass {
 				break;
 			}
 			case 0: {
-				System.out.println("return to my information page");
+				System.out.println("이전 페이지로 돌아갑니다.");
 				return; }
 
 			default:
@@ -59,8 +63,13 @@ public class StudentSelectClass {
 			
 			//get user information
 			int userId = Session.loggedInUser.getUser_id();
+			
+			System.out.println("\n\n");
 			System.out.println(
-					Session.loggedInUser.getName()+"'s page | 1. 대출 내역 | 2. 장바구니 | 0. 이전 페이지로 돌아가기");
+					Session.loggedInUser.getName()+"님 > 도서 대출 정보");
+			System.out.println("=================================================================");
+			System.out.printf("%-20s %-20s %-10s\n", "1. 📖 대출 내역", " 2. 🛒 장바구니", "0. 이전 페이지");
+			System.out.print("▶▶ ");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: { studentDAO.loanedBookList(userId);
@@ -73,7 +82,7 @@ public class StudentSelectClass {
 				break;
 			}
 			case 0: {
-				System.out.println("return to my book info page");
+				System.out.println("이전 페이지로 돌아갑니다.");
 				return; }
 
 			default:
@@ -95,7 +104,17 @@ public class StudentSelectClass {
 		public void showStudent(String userName, String userRole) {
 			// if member role == admin
 			// else if member role == student
-			System.out.println("1. 도서 대출 | 2. 도서 반납 | 3. 나의 대출 정보 | 4. 마이 페이지 | 0. 로그아웃");
+			
+			
+			System.out.println("\n\n======================================================================================");
+			System.out.printf("%-10s %-10s %-10s %-10s\n",
+				    "1. 📖 도서 대출",
+				    "2. 📥 도서 반납",
+				    "3. 📚 나의 대출 정보",
+				    "4. 🙋 마이 페이지  0. 🔓 로그아웃 "
+				);
+			System.out.print("▶▶ ");
+
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: {
@@ -115,7 +134,7 @@ public class StudentSelectClass {
 				break;
 			}
 			case 0:
-				System.out.println(userName + " user log out: " + userRole);
+				System.out.println(userName + "[" + userRole + "]"+ "님 로그아웃 되었습니다.");
 				Session.loggedInUser = null;
 				break;
 				

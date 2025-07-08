@@ -29,7 +29,9 @@ public class StudentDAO {
 	 */
 	public void loanedBookList(int userId) {
 		Connection con = null;
-		System.out.println("===== SHOW loanedBookList =====");
+		System.out.println();
+		System.out.println("도서 대출 내역");
+		System.out.println("============================================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 

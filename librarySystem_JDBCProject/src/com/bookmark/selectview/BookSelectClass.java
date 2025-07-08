@@ -16,113 +16,6 @@ public class BookSelectClass {
 	DataSource ds = new DataSource();	
 	
 	
-//	// 도서 전체 목록 보기 콘솔
-//	public void showBookList() {
-//		
-//		List<BookWithCategoryVO> bookList = dao.getBookAll();
-//		
-//		System.out.println();
-//	    System.out.println("📚 등록된 도서 목록");
-//	    System.out.println("==========================================================================================================");
-//	    System.out.printf(" %-4s  %-10s  %-15s  %-10s  %-10s  %-5s  %-12s  %-10s\n",
-//	            "ID", "카테고리", "제목", "작가", "출판사", "수량", "출판일", "카테고리ID");
-//	    System.out.println("----------------------------------------------------------------------------------------------------------");
-//
-//	    for (BookWithCategoryVO book : bookList) {
-//	        System.out.printf(" %-4d  %-10s  %-15s  %-10s  %-10s  %-5d  %-12s  %-10d\n",
-//	                book.getBookId(),
-//	                book.getCategoryName(),
-//	                book.getTitle(),
-//	                book.getAuthor(),
-//	                book.getPublisher(),
-//	                book.getTotalCount(),
-//	                book.getCreateAt().toString(),
-//	                book.getCategoryId());
-//	    }
-//
-//	    System.out.println("==========================================================================================================");
-//		}
-//	
-//	
-//	
-//	// 카테고리로 도서 조회 콘솔
-//	public void inputCategoryBook() {
-//		// 카테고리에 따른 도서 조회
-//				System.out.println("📚 열람하고 싶은 도서의 카테고리 ID를 입력하세요.");
-//				System.out.println("--------------------------------------------------");
-//				System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
-//				System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
-//				System.out.println("--------------------------------------------------");
-//				System.out.print("▶ 카테고리 ID 입력: ");
-//
-//				int categoryId = ds.scanner.nextInt();
-//				
-//				List<BookWithCategoryVO> bookList = new ArrayList<>();
-//				
-//				try {
-//					bookList = dao.getBooksByCategory(categoryId);
-//				}catch(RuntimeException e) {
-//					System.out.println("❌ 도서 조회 중 오류 발생: " + e.getMessage());
-//					return;
-//				}
-//				
-//				if (bookList.isEmpty()) {
-//			        System.out.println("📭 해당 카테고리에 등록된 도서가 없습니다.");
-//			        return;
-//			    }
-//					
-//			    System.out.println("\n📚 해당 카테고리의 도서 목록:");
-//			    System.out.println("----------------------------------------------------------------------------------------------------------");
-//			    for (BookWithCategoryVO book : bookList) {
-//			        System.out.printf("📘 [ID:%d] [카테고리: %s[%d] ] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량 : %d권\n",
-//			                book.getBookId(), 
-//			                book.getCategoryName(),
-//			                book.getCategoryId(),
-//			                book.getTitle(),
-//			                book.getAuthor(),
-//			                book.getPublisher(),
-//			                book.getCreateAt().toString(),
-//			                book.getTotalCount()
-//			        );
-//			    }
-//
-//			    System.out.println("----------------------------------------------------------------------------------------------------------");
-//	}
-//	
-//	
-//	
-//	// 도서 검색 콘솔
-//	public void inputSearchBook() {
-//		
-//		// 도서 검색
-//		System.out.print("🔎 검색할 키워드를 입력하세요.(제목 또는 작가): ");
-//		String keyword = ds.scanner.nextLine();
-//
-//		List<BookWithCategoryVO> results = dao.getSearchBooks(keyword);
-//
-//		if (results.isEmpty()) {
-//		    System.out.println("📭 검색 결과가 없습니다.");
-//		} else {
-//		    System.out.println("\n🔍 검색 결과:");
-//		    for (BookWithCategoryVO book : results) {
-//		        System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-//		            book.getBookId(),
-//		            book.getCategoryId(),
-//		            book.getCategoryName(),
-//		            book.getTitle(),
-//		            book.getAuthor(),
-//		            book.getPublisher(),
-//		            book.getCreateAt().toString(),
-//		            book.getTotalCount()
-//		        );
-//		    }
-//		}
-//		
-//	}
-		
-		
-	
-	
 	
 	// 도서 등록 및 입력 콘솔
 	public BookVO inputInsertBook() {
@@ -199,7 +92,7 @@ public class BookSelectClass {
 			        
 			        if (!ds.sc.hasNextInt()) {
 			            System.out.println("❌ 숫자를 입력해 주세요.");
-			            ds.sc.nextLine(); // 버퍼 비우기
+//			            ds.sc.nextLine(); // 버퍼 비우기
 			            continue;
 			        }
 
@@ -239,7 +132,7 @@ public class BookSelectClass {
 			                System.out.print("📦 새 소장 수량: ");
 			                if (ds.sc.hasNextInt()) {
 			                    book.setTotalCount(Integer.parseInt(ds.sc.nextLine()));
-			                    ds.sc.nextLine();
+//			                    ds.sc.nextLine();
 			                } else {
 			                    System.out.println("❌ 숫자를 입력해 주세요.");
 			                    ds.sc.nextLine(); // 잘못된 입력 버림
@@ -272,6 +165,112 @@ public class BookSelectClass {
 			}
 
 			
+			
+			
+			
+//			// 도서 전체 목록 보기 콘솔
+//			public void showBookList() {
+//				
+//				List<BookWithCategoryVO> bookList = dao.getBookAll();
+//				
+//				System.out.println();
+//			    System.out.println("📚 등록된 도서 목록");
+//			    System.out.println("==========================================================================================================");
+//			    System.out.printf(" %-4s  %-10s  %-15s  %-10s  %-10s  %-5s  %-12s  %-10s\n",
+//			            "ID", "카테고리", "제목", "작가", "출판사", "수량", "출판일", "카테고리ID");
+//			    System.out.println("----------------------------------------------------------------------------------------------------------");
+		//
+//			    for (BookWithCategoryVO book : bookList) {
+//			        System.out.printf(" %-4d  %-10s  %-15s  %-10s  %-10s  %-5d  %-12s  %-10d\n",
+//			                book.getBookId(),
+//			                book.getCategoryName(),
+//			                book.getTitle(),
+//			                book.getAuthor(),
+//			                book.getPublisher(),
+//			                book.getTotalCount(),
+//			                book.getCreateAt().toString(),
+//			                book.getCategoryId());
+//			    }
+		//
+//			    System.out.println("==========================================================================================================");
+//				}
+		//	
+		//	
+		//	
+//			// 카테고리로 도서 조회 콘솔
+//			public void inputCategoryBook() {
+//				// 카테고리에 따른 도서 조회
+//						System.out.println("📚 열람하고 싶은 도서의 카테고리 ID를 입력하세요.");
+//						System.out.println("--------------------------------------------------");
+//						System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
+//						System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
+//						System.out.println("--------------------------------------------------");
+//						System.out.print("▶ 카테고리 ID 입력: ");
+		//
+//						int categoryId = ds.scanner.nextInt();
+//						
+//						List<BookWithCategoryVO> bookList = new ArrayList<>();
+//						
+//						try {
+//							bookList = dao.getBooksByCategory(categoryId);
+//						}catch(RuntimeException e) {
+//							System.out.println("❌ 도서 조회 중 오류 발생: " + e.getMessage());
+//							return;
+//						}
+//						
+//						if (bookList.isEmpty()) {
+//					        System.out.println("📭 해당 카테고리에 등록된 도서가 없습니다.");
+//					        return;
+//					    }
+//							
+//					    System.out.println("\n📚 해당 카테고리의 도서 목록:");
+//					    System.out.println("----------------------------------------------------------------------------------------------------------");
+//					    for (BookWithCategoryVO book : bookList) {
+//					        System.out.printf("📘 [ID:%d] [카테고리: %s[%d] ] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량 : %d권\n",
+//					                book.getBookId(), 
+//					                book.getCategoryName(),
+//					                book.getCategoryId(),
+//					                book.getTitle(),
+//					                book.getAuthor(),
+//					                book.getPublisher(),
+//					                book.getCreateAt().toString(),
+//					                book.getTotalCount()
+//					        );
+//					    }
+		//
+//					    System.out.println("----------------------------------------------------------------------------------------------------------");
+//			}
+		//	
+		//	
+		//	
+//			// 도서 검색 콘솔
+//			public void inputSearchBook() {
+//				
+//				// 도서 검색
+//				System.out.print("🔎 검색할 키워드를 입력하세요.(제목 또는 작가): ");
+//				String keyword = ds.scanner.nextLine();
+		//
+//				List<BookWithCategoryVO> results = dao.getSearchBooks(keyword);
+		//
+//				if (results.isEmpty()) {
+//				    System.out.println("📭 검색 결과가 없습니다.");
+//				} else {
+//				    System.out.println("\n🔍 검색 결과:");
+//				    for (BookWithCategoryVO book : results) {
+//				        System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
+//				            book.getBookId(),
+//				            book.getCategoryId(),
+//				            book.getCategoryName(),
+//				            book.getTitle(),
+//				            book.getAuthor(),
+//				            book.getPublisher(),
+//				            book.getCreateAt().toString(),
+//				            book.getTotalCount()
+//				        );
+//				    }
+//				}
+//				
+//			}
 		
-	}
+}
 

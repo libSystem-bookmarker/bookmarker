@@ -22,7 +22,9 @@ public class ViewClass {
 	public void showView() {
 		while (true) {
 			if (Session.loggedInUser == null) {
-				System.out.println("===== library system Login Page =====");
+
+				System.out.println("책갈피에 로그인 해주세요.");
+				System.out.println("====================================================================");
 				System.out.print("id: ");
 				String user_id = ds.sc.nextLine();
 				System.out.print("pw: ");

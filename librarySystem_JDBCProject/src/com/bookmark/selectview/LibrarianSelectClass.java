@@ -19,7 +19,12 @@ public class LibrarianSelectClass {
 	//librarian's select
 			public void managingLibrarian() {
 				System.out.println(
-						Session.loggedInUser.getName()+"'s page | 1. 나의 정보 | 2. 나의 정보 수정 | 0. 이전 페이지로 돌아가기");
+					Session.loggedInUser.getName()+"\n📚님 환영합니다!");
+				
+				System.out.println("============================================================");
+				System.out.printf("%-20s %-20s %-10s\n", "1. 👤 내 정보 조회", "2. 📘 내 정보 수정", "0. 이전 페이지로 ");
+				System.out.print("▶▶ ");
+				
 				int librarianMenu = Integer.parseInt(ds.sc.nextLine());
 				switch (librarianMenu) {
 				case 1: {
@@ -31,7 +36,7 @@ public class LibrarianSelectClass {
 					break;
 				}
 				case 0:
-					System.out.println("return to my information page");
+					System.out.println("이전 페이지로 돌아갑니다.");
 					return;
 
 				default:
@@ -44,7 +49,11 @@ public class LibrarianSelectClass {
 			
 	public void showLibrarian(String userName, String userRole) {
 		// if member role == lib
-			System.out.println("도서관 사서 메뉴 | 1. 내 정보 관리 | 2. 도서 관리 | 0. 로그아웃");
+			System.out.println();
+			System.out.println("		       도서관 사서 메뉴							");
+			System.out.println("============================================================");
+			System.out.printf("%-20s %-20s %-10s\n", "1. 👤 내 정보 관리", "2. 📘 도서 관리", "0. 🔒 로그아웃");
+			System.out.print("▶▶ ");
 			int librarianMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (librarianMenu) {
 			case 1: {
@@ -56,8 +65,7 @@ public class LibrarianSelectClass {
 				break;
 			}
 			case 0: {
-				System.out.println(userName + " user log out: " + userRole);
-
+				System.out.println(userName + "[" + userRole + "]"+ "님 로그아웃 되었습니다.");
 				Session.loggedInUser = null;
 				break;
 			}

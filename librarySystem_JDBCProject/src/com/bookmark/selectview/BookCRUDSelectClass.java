@@ -1,8 +1,8 @@
 package com.bookmark.selectview;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.bookmark.common.DataSource;
 import com.bookmark.dao.BookDAO;
@@ -27,9 +27,22 @@ public class BookCRUDSelectClass {
 		// 결과 출력
 		System.out.println("\n📘 도서 목록:");
 		for (BookWithCategoryVO book : results) {
-			System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-					book.getBookId(), book.getCategoryId(), book.getCategoryName(), book.getTitle(), book.getAuthor(),
-					book.getPublisher(), book.getCreateAt().toString(), book.getTotalCount());
+			System.out.println();
+			System.out.printf("📘 [ID: %-3d] 📂 카테고리: %-2s[%d]\n", 
+		            book.getBookId(),
+		            book.getCategoryName(),
+		            book.getCategoryId()
+		            );
+
+			System.out.printf("    📕 제목: %-20s | 👤 작가: %-5s | 🏢 출판사: %-5s\n", 
+			                  book.getTitle(), 
+			                  book.getAuthor(), 
+			                  book.getPublisher());
+			
+			System.out.printf("    📅 출판일: %s  📦 수량: %d권\n", 
+			                  new SimpleDateFormat("yyyy-MM-dd").format(book.getCreateAt()), 
+			                  book.getTotalCount());
+			System.out.println("----------------------------------------------------------------------------");
 		}
 	}
 
@@ -45,24 +58,25 @@ public class BookCRUDSelectClass {
 
 			List<BookWithCategoryVO> searchResults = new ArrayList<>();
 
+			System.out.println();
 			System.out.println("\n📚 도서 관리");
-			System.out.println("1. 도서 목록 조회");
-			System.out.println("2. 도서 등록");
-			System.out.println("3. 도서 수정");
-			System.out.println("4. 도서 삭제");
+			System.out.println("===========================================================================================");
+			System.out.printf("%-10s %-10s %-10s %-10s %-10s \n", "1. 📖 도서 목록 조회 ", "2. 📝 도서 등록 ", "3. ✏️ 도서 수정 ", "4. ❌ 도서 삭제 ", "0. 🔚 도서 관리 종료 ");
 			System.out.println("0. 프로그램 종료");
-			System.out.print("▶ 메뉴 선택: ");
+			System.out.print("▶▶ 메뉴 선택: ");
 
 			int menu = Integer.parseInt(ds.sc.nextLine());
 
 			switch (menu) {
 
 			case 1:
+				System.out.println("\n📚 도서 목록 조회");
+				System.out.println("===========================================================================================");
 				System.out.println("1. 전체 도서 목록 보기");
 				System.out.println("2. 카테고리별 도서 목록 보기");
 				System.out.println("3. 제목 또는 작가 검색");
-				System.out.println("0. 선택 시 종료");
-				System.out.print("▶▶ (1~3): ");
+				System.out.println("0. 조회 종료");
+				System.out.print("▶▶(1~3): ");
 
 				int num = Integer.parseInt(ds.sc.nextLine());
 
@@ -71,11 +85,12 @@ public class BookCRUDSelectClass {
 					searchResults = dao.getBookAll();
 					break;
 				case 2:
+					System.out.println("\n📚 카테고리 선택");
 					System.out.println("--------------------------------------------------");
 					System.out.println("1. 총류  | 2. 철학  | 3. 종교  | 4. 사회과학  | 5. 자연과학");
 					System.out.println("6. 기술과학  | 7. 예술  | 8. 언어  | 9. 문학  | 10. 역사");
 					System.out.println("--------------------------------------------------");
-					System.out.print("▶ 카테고리 ID 입력: ");
+					System.out.print("▶▶ 카테고리ID 입력: ");
 					int categoryId = Integer.parseInt(ds.sc.nextLine());
 					searchResults = dao.getBooksByCategory(categoryId);
 					break;
@@ -98,12 +113,26 @@ public class BookCRUDSelectClass {
 					continue;
 				} else {
 					// 결과 출력
-					System.out.println("\n📘 도서 목록:");
+					System.out.println("\n                       도서 목록                                    ");
+					System.out.println("=====================================================================");
 					for (BookWithCategoryVO book : searchResults) {
-						System.out.printf("📘 [ID: %d] [카테고리: %d - %s] 제목: %s | 작가: %s | 출판사: %s | 출판일: %s | 수량: %d권\n",
-								book.getBookId(), book.getCategoryId(), book.getCategoryName(), book.getTitle(),
-								book.getAuthor(), book.getPublisher(), book.getCreateAt().toString(),
-								book.getTotalCount());
+						System.out.println();
+						System.out.printf("📘 [ID: %-3d] 📂 카테고리: %-2s[%d]\n", 
+					            book.getBookId(),
+					            book.getCategoryName(),
+					            book.getCategoryId()
+					            );
+
+						System.out.printf("    📕 제목: %-20s | 👤 작가: %-5s | 🏢 출판사: %-5s\n", 
+						                  book.getTitle(), 
+						                  book.getAuthor(), 
+						                  book.getPublisher());
+						
+						System.out.printf("    📅 출판일: %s  📦 수량: %d권\n", 
+						                  new SimpleDateFormat("yyyy-MM-dd").format(book.getCreateAt()), 
+						                  book.getTotalCount());
+						
+						System.out.println("----------------------------------------------------------------------------");
 					}
 
 				}
@@ -128,11 +157,12 @@ public class BookCRUDSelectClass {
 					System.out.printf("🗂 카테고리 ID    : %d\n", book.getCategoryId());
 					System.out.println("========================================");
 					System.out.println();
-					System.out.print("✅ 입력이 완료되었습니다. 책을 등록 중입니다 [");
+					System.out.print("✅ 입력이 완료되었습니다.");
+					System.out.println("✅ 책을 등록 중입니다 [");
 
 					for (int i = 0; i < 20; i++) {
 						try {
-							Thread.sleep(150); // 0.15초 대기 (속도 조절 가능)
+							Thread.sleep(120); // 0.15초 대기 (속도 조절 가능)
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 						}
@@ -150,6 +180,7 @@ public class BookCRUDSelectClass {
 			// 도서 수정
 			case 3:
 				selectBook();
+				
 
 				System.out.print("도서 ID : ");
 				int updateId = Integer.parseInt(ds.sc.nextLine());
@@ -174,7 +205,8 @@ public class BookCRUDSelectClass {
 				selectBook();
 
 				System.out.print("🗑 삭제할 도서 ID를 입력하세요. ");
-				System.out.print("도서 ID : ");
+				System.out.println();
+				System.out.print("▶▶ 도서 ID : ");
 				int deleteId = Integer.parseInt(ds.sc.nextLine());
 
 				try {

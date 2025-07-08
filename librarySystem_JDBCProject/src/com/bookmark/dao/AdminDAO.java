@@ -22,26 +22,28 @@ public class AdminDAO {
 	// insert
 	public void insertMember() {
 		Connection con = null;
-		System.out.println("===== create new member =====");
+		
+		System.out.println("\n\n🆕 회원 등록");
+		System.out.println("==============================================");
 		PreparedStatement pstmt = null;
 		try {
 			con = ds.getConnection();
 			con.setAutoCommit(false);
 
-			System.out.println("name: ");
+			System.out.print("👤 이름: ");
 			memberVO.setName(ds.sc.nextLine());
-			System.out.println("role (student / lib): ");
+			System.out.print("🔰 권한 (student / lib): ");
 			memberVO.setRole(ds.sc.nextLine());
 			if (memberVO.getRole().equals("student") || memberVO.getRole().equals("lib")) {
-				System.out.println("phone_number: ");
+				System.out.print("전화번호: ");
 				memberVO.setPhone_number(ds.sc.nextLine());
-				System.out.println("address: ");
+				System.out.print("주소: ");
 				memberVO.setAddress(ds.sc.nextLine());
-				System.out.println("major id: (10,20,30,...150)");
+				System.out.println("전공 ID (예: 10, 20, 30 ..)");
 				majorList();
 				memberVO.setMajor_id(Integer.parseInt(ds.sc.nextLine()));
 				if (memberVO.getMajor_id() % 10 != 0) {
-					System.out.println("fail");
+					System.out.println("⚠️ 전공 ID가 아닙니다.");
 				} else {
 					String sqlInsert = "INSERT INTO MEMBER (user_id, pw, name, role, phone_number, address, major_id) VALUES (memberNo_seq.nextval,'1234', ?,?,?,?,?)";
 					pstmt = con.prepareStatement(sqlInsert);
@@ -54,9 +56,9 @@ public class AdminDAO {
 					int result = pstmt.executeUpdate();
 					if (result > 0) {
 						con.commit();
-						System.out.println("Member inserted successfully.");
+						System.out.println("새로운 회원이 등록되었습니다!");
 					} else {
-						System.out.println("Member insert failed.");
+						System.out.println("등록에 실패했습니다.");
 					}
 				}
 
@@ -86,7 +88,8 @@ public class AdminDAO {
 	// update member -> select id and name
 	public void updateMember() {
 		Connection con = null;
-	    System.out.println("===== UPDATE MEMBER (select id and name) =====");
+		System.out.println("\n🛠️ 회원 정보 수정");
+		System.out.println("=======================================");
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 	    int result = 0;
@@ -101,9 +104,9 @@ public class AdminDAO {
 	        con.setAutoCommit(false);
 
 	        // 수정 대상 선택
-	        System.out.print("Enter the user ID: ");
+	        System.out.print("🔢 수정할 회원 ID: ");
 	        int updateId = Integer.parseInt(ds.sc.nextLine());
-	        System.out.print("Enter the user NAME: ");
+	        System.out.print("📝 수정할 회원 이름: ");
 	        String updateName = ds.sc.nextLine();
 
 	        // DB에서 해당 유저의 현재 정보 조회
@@ -114,7 +117,7 @@ public class AdminDAO {
 	        rs = pstmt.executeQuery();
 
 	        if (!rs.next()) {
-	            System.out.println("No member found with that ID and name.");
+	        	System.out.println("❌ 해당 ID와 이름의 회원을 찾을 수 없습니다.");
 	            return;
 	        }
 
@@ -124,10 +127,10 @@ public class AdminDAO {
 	        System.out.println("Current role: " + currentRole + ", current major ID: " + currentMajorId);
 
 	        // 업데이트 확인
-	        System.out.print("Are you sure you want to update this member? (y / n): ");
+	        System.out.print("정말로 수정하시겠습니까? (y / n): ");
 	        String confirm = ds.sc.nextLine();
 	        if (confirm.equalsIgnoreCase("n")) {
-	            System.out.println("Update canceled.");
+	        	System.out.println("수정이 취소되었습니다.");
 	            return;
 	        }
 
@@ -208,7 +211,8 @@ public class AdminDAO {
 	// delete member -> select id and name
 	public void deleteMember() {
 		Connection con = null;
-		System.out.println("===== delete member (select id and name) =====");
+		System.out.println("\n🗑️ 회원 삭제");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -221,16 +225,16 @@ public class AdminDAO {
 			con.setAutoCommit(false);
 
 			// 삭제 대상 선택
-			System.out.println("Enter the user ID and user NAME to delete: ");
+			System.out.print("🔢 삭제할 회원 ID를 입력하세요: ");
 			int deleteId = Integer.parseInt(ds.sc.nextLine());
 			String deleteName = ds.sc.nextLine();
 
 			// 삭제 확인
-			System.out.println("Are you sure you want to delete this member? " + deleteName + " (y / n): ");
+			System.out.printf("⚠️ 정말로 삭제하시겠습니까? %s (y / n): ", deleteName);
 			String confirm = ds.sc.nextLine();
 
 			if (confirm.equals("n")) {
-				System.out.println("delete canceled!");
+				System.out.println("삭제가 취소되었습니다.");
 				return;
 			}
 
@@ -244,9 +248,9 @@ public class AdminDAO {
 
 			if (result > 0) {
 				con.commit();
-				System.out.println("Member deleted successfully.");
+				System.out.println("회원이 삭제되었습니다.");
 			} else {
-				System.out.println("No member found with...");
+				System.out.println("회원을 찾을 수 없습니다.");
 			}
 		} catch (SQLException e) {
 			try {
@@ -273,7 +277,8 @@ public class AdminDAO {
 	// (filtering: admin, lib, student)
 	public void memberListFilteringAdmin() {
 		Connection con = null;
-		System.out.println("===== SHOW ADMIN MEMBER LIST =====");
+		System.out.println("\n📋 전체 회원 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -285,12 +290,13 @@ public class AdminDAO {
 			pstmt = con.prepareStatement(memberListSql);
 			rs = pstmt.executeQuery();
 
-			System.out.println("[ ADMIN MEMBER LIST ]");
+			System.out.println("\n📋 전체 관리자  목록");
+			System.out.println("=======================================");
 			while (rs.next()) {
 				int id = rs.getInt("user_id");
 				String name = rs.getString("name");
 				String role = rs.getString("role");
-				System.out.printf("\"ID: %-10d | NAME: %-10s | ROLE: %-7s\n", id, name, role);
+				System.out.printf("👤 ID: %-10d | 이름: %-10s | 권한: %-7s\n", id, name, role);
 			}
 
 		} catch (SQLException e) {
@@ -314,7 +320,8 @@ public class AdminDAO {
 	// (filtering: admin, lib, student)
 	public void memberListFilteringLib() {
 		Connection con = null;
-		System.out.println("===== SHOW LIBRARIAN MEMBER LIST =====");
+		System.out.println("\n📋 전체 관리자 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -326,7 +333,7 @@ public class AdminDAO {
 			pstmt = con.prepareStatement(memberListSql);
 			rs = pstmt.executeQuery();
 
-			System.out.println("[ LIBRARIAN MEMBER LIST ]");
+//			System.out.println("[ LIBRARIAN MEMBER LIST ]");
 			while (rs.next()) {
 				int id = rs.getInt("user_id");
 				String name = rs.getString("name");
@@ -355,7 +362,8 @@ public class AdminDAO {
 	// (filtering: admin, lib, student)
 	public void memberListFilteringStudent() {
 		Connection con = null;
-		System.out.println("===== SHOW STUDENT MEMBER LIST =====");
+		System.out.println("\n📋 전체 학생 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -447,7 +455,8 @@ public class AdminDAO {
 	// insert major
 	public void insertMajor() {
 		Connection con = null;
-		System.out.println("===== CREATE NEW MAJOR =====");
+		System.out.println("\n📋 전공 등록");
+		System.out.println("=======================================");
 
 		PreparedStatement pstmt = null;
 		try {
@@ -463,7 +472,7 @@ public class AdminDAO {
 			
 			majorListWithDept (parentId);
 			
-			System.out.println("Enter the new major name: ");
+			System.out.println("전공 이름: ");
 			String majorName = ds.sc.nextLine();
 			
 			String sqlInsert = "INSERT INTO major (major_id, major_name, parent_id) VALUES (majorNo_seq.NEXTVAL, ?, "+parentId+")";
@@ -475,9 +484,9 @@ public class AdminDAO {
 
 			if (result > 0) {
 				con.commit(); // 커밋 추가
-				System.out.println("Major inserted successfully.");
+				System.out.println("전공이 등록되었습니다!");
 			} else {
-				System.out.println("Major insert failed.");
+				System.out.println("등록에 실패하였습니다.");
 			}
 
 		} catch (SQLException e) {
@@ -504,7 +513,8 @@ public class AdminDAO {
 	// update major -> select id and name
 	public void updateMajor() {
 		Connection con = null;
-	    System.out.println("===== UPDATE MAJOR =====");
+		System.out.println("\n📋 전공 수정");
+		System.out.println("=======================================");
 	    PreparedStatement pstmt = null;
 
 	    try {
@@ -523,15 +533,15 @@ public class AdminDAO {
 			int majorId = Integer.parseInt(ds.sc.nextLine());
 
 	        // 4. 확인
-	        System.out.println("Are you sure you want to update this major? " + majorId + " (y / n): ");
+	        System.out.println("정말 전공을 수정하시겠습니까?  " + majorId + " (y / n): ");
 	        String confirm = ds.sc.nextLine();
 	        if (confirm.equalsIgnoreCase("n")) {
-	            System.out.println("update canceled!");
+	            System.out.println("수정이 취소되었습니다.");
 	            return;
 	        }
 
 	        // 5. 새로운 이름 입력
-	        System.out.println("Enter the new major name: ");
+	        System.out.println("전공 이름: ");
 	        String updateName = ds.sc.nextLine();
 
 	        // 6. UPDATE 실행
@@ -543,9 +553,9 @@ public class AdminDAO {
 	        int result = pstmt.executeUpdate();
 	        if (result > 0) {
 	            con.commit();
-	            System.out.println("Major updated successfully.");
+	            System.out.println("전공을 수정하였습니다!");
 	        } else {
-	            System.out.println("No major found with the provided ID.");
+	            System.out.println("해당 전공이 존재하지 않습니다.");
 	        }
 
 	    } catch (Exception e) {
@@ -568,7 +578,8 @@ public class AdminDAO {
 	//major list -> select dept id
 	public void majorListWithDept (int parentId) {
 		Connection con = null;
-		System.out.println("===== SHOW MAJOR LIST =====");
+		System.out.println("\n📋 전체 전공 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -581,7 +592,7 @@ public class AdminDAO {
 			pstmt = con.prepareStatement(majorDeptListSql);
 			rs = pstmt.executeQuery();
 			
-			System.out.println("[ MAJOR DEPT LIST ]");
+			System.out.println("[ 학부/ 학과 목록 ]");
 			while(rs.next()) {
 				int id = rs.getInt("major_id");
 				String majorName = rs.getString("major_name");
@@ -610,7 +621,8 @@ public class AdminDAO {
 	// major list -> all
 	public void majorList() {
 		Connection con = null;
-		System.out.println("===== SHOW MAJOR LIST =====");
+		System.out.println("\n📋 전체 학과 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -628,7 +640,7 @@ public class AdminDAO {
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 
-				System.out.println("[ MAJOR HIERARCHY LIST ]");
+				System.out.println("[ 학과 목록 ]");
 				System.out.println("---------------------------------------------------------------------------------");
 				System.out.printf("| %-30s | %-10s | %-10s |\n", "HIERARCHY NAME", "MAJOR ID", "PARENT ID");
 				System.out.println("---------------------------------------------------------------------------------");
@@ -665,7 +677,8 @@ public class AdminDAO {
 	
 	public void departmentList() {
 		Connection con = null;
-		System.out.println("===== SHOW DEPARTMENT LIST =====");
+		System.out.println("\n📋 전체 학부 목록");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -680,7 +693,7 @@ public class AdminDAO {
 			pstmt = con.prepareStatement(deptListSql);
 			rs = pstmt.executeQuery();
 			
-			System.out.println("[ DEPARTMENT LIST ]");
+			System.out.println("[ 학부 목록 ]");
 			while(rs.next()) {
 				int id = rs.getInt("major_id");
 				String majorName = rs.getString("major_name");
@@ -706,7 +719,8 @@ public class AdminDAO {
 	// delete major -> delete id and name
 	public void deletemajor() {
 		Connection con = null;
-		System.out.println("===== DELETE MAJOR =====");
+		System.out.println("\n📋 전공 삭제");
+		System.out.println("=======================================");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -739,9 +753,9 @@ public class AdminDAO {
 
 			if (result > 0) {
 				con.commit();
-				System.out.println("Major deleted successfully.");
+				System.out.println("전공이 삭제되었습니다!");
 			} else {
-				System.out.println("No Major found with...");
+				System.out.println("전공을 찾을 수 없습니다.");
 			}
 		}catch (Exception e) {
 	        try {

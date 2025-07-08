@@ -17,7 +17,10 @@ public class AdminSelectClass {
 	public void managingMember() {
 
 		System.out.println(
-				"회원 관리 메뉴 | 1. 회원 생성 | 2.  회원 수정 | 3.회원 목록 | 4. 회원 삭제 | 0. 이전 페이지로 돌아가기");
+				"\n\n📚회원 관리 메뉴" ); 
+		System.out.println("==========================================================================================================");
+		System.out.println("1. 🆕 회원 생성   | 2. 🛠️  회원 수정   | 3. 📋 회원 목록   | 4. ❌ 회원 삭제   | 0. 🔙 이전 페이지로 돌아가기");
+		System.out.print("▶▶ ");
 		int adminMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (adminMenu) {
 			case 1: {
@@ -29,7 +32,20 @@ public class AdminSelectClass {
 				break;
 			}
 			case 3: {
-				System.out.println("회원 목록 | 1. 회원 전체 조회 | 2. 관리자 회원 목록 | 3. 사서 회원 목록 | 4. 학생 회원 목록 |  0. 이전 페이지로 돌아가기");
+				
+				System.out.println(
+						"\n\n📚회원 목록 조회" ); 
+				System.out.println("================================================================================");
+				System.out.printf("%-10s | %-10s | %-10s | %-10s | %-10s\n",
+					    "1. 전체 회원 ",
+					    "2. 관리자 ",
+					    "3. 사서 ",
+					    "4. 학생 ",
+					    "0. 🔙 이전"
+					);
+
+				System.out.print("▶▶ ");
+				
 				int memberListMenu = Integer.parseInt(ds.sc.nextLine());
 				switch (memberListMenu) {
 				case 1:
@@ -45,7 +61,7 @@ public class AdminSelectClass {
 					adminDAO.memberListFilteringStudent();
 					break;
 				case 0:
-					System.out.println("return to admin main page");
+					System.out.println("이전 페이지로 돌아갑니다.");
 					return;
 
 				default:
@@ -59,7 +75,7 @@ public class AdminSelectClass {
 				break;
 			}
 			case 0: {
-				System.out.println("return to admin main page");
+				System.out.println("이전 페이지로 돌아갑니다.");
 				return;
 			}
 			default:
@@ -74,8 +90,12 @@ public class AdminSelectClass {
 	 * 전공 관리 switch 문
 	 */
 	public void managingMajor() {
-		System.out.println(
-				"학과 관리 | 1. 학과 생성 | 2. 학과 수정 | 3. 학과 목록 | 4. 학과 삭제 | 0. 이전 페이지로 돌아가기");
+		
+		System.out.println("\n\n📚학과 관리");
+			System.out.println("==================================================================");
+			System.out.printf("1. 학과 생성 | 2. 학과 수정 | 3. 학과 목록 | 4. 학과 삭제 | 0. 이전 페이지로 돌아가기");
+			System.out.print("▶▶ ");
+		
 		int adminMenu = Integer.parseInt(ds.sc.nextLine());
 		switch (adminMenu) {
 		case 1: {
@@ -95,7 +115,7 @@ public class AdminSelectClass {
 			break;
 		}
 		case 0: {
-			System.out.println("return to admin main page");
+			System.out.println("이전 페이지로 돌아갑니다.");
 			return;
 		}
 		default:
@@ -113,7 +133,11 @@ public class AdminSelectClass {
 	 */
 	public void showViewAdmin(String userName, String userRole) {
 		// if member role == admin
-		System.out.println("관리자 | 1. 회원 관리 | 2. 학과 관리 | 0. LOG OUT");
+		
+		System.out.println("\n\n📚관리자 페이지");
+		System.out.println("==================================================================");
+		System.out.printf("1. 회원 관리 | 2. 학과 관리 | 0. 로그아웃");
+		System.out.print("▶▶ ");
 		int adminSelectMenu = Integer.parseInt(ds.sc.nextLine());
 
 		switch (adminSelectMenu) {

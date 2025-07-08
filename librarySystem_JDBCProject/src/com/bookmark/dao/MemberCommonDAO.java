@@ -23,6 +23,7 @@ public class MemberCommonDAO {
 	 * @param inputId
 	 * @param inputPw
 	 * 아이디, 비밀번호를 확인해 로그인 하는 메서드
+	 * @throws InterruptedException 
 	 */
 	public boolean loginMember(String inputId, String inputPw) {
 
@@ -47,7 +48,11 @@ public class MemberCommonDAO {
 				memberVO.setMajor_id(rs.getInt("major_id"));
 
 				Session.loggedInUser = memberVO; // 로그인된 사용자 세션 저장
-				System.out.println("login success : [" + memberVO.getName() + " " + memberVO.getRole() + "]");
+				System.out.println("로그인 성공! [" + memberVO.getName() + " " + memberVO.getRole() + "]");
+				
+
+		            System.out.println(memberVO.getName()  + "님🌌 책갈피에 오신 걸 환영합니다 ✨\n");
+				
 				return true;
 			} else {
 				System.out.println("로그인 실패: 아이디 또는 비밀번호 오류");
@@ -72,7 +77,11 @@ public class MemberCommonDAO {
 	 * 쿼리 수정
 	 */
 	public void userDetails() {
-		System.out.println("===== USER DETAIL INFORMATION =====");
+		
+		
+		System.out.println("		          내 정보						");
+		System.out.println("=====================================================");
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -95,7 +104,7 @@ public class MemberCommonDAO {
 			pstmt = con.prepareStatement(memberDetailSql);
 			rs = pstmt.executeQuery();
 
-			System.out.println("[ your information ]");
+			System.out.println("[ " + Session.loggedInUser.getName() + " ]" );
 			while (rs.next()) {
 				int id = rs.getInt("user_id");
 				String name = rs.getString("name");
@@ -125,7 +134,9 @@ public class MemberCommonDAO {
 	 */
 	public void updateMember() {
 	    Connection con = null;
-	    System.out.println("===== UPDATE USER INFO =====");
+	    System.out.println();
+	    System.out.println("		    내 정보 수정					");
+		System.out.println("=================================================");
 	    PreparedStatement pstmt = null;
 
 	    try {
@@ -137,30 +148,31 @@ public class MemberCommonDAO {
 	        int currentUserId = Session.loggedInUser.getUser_id();
 
 	        // 비밀번호 확인
-	        System.out.println("Enter your password to access the member information update page.");
+	        System.out.println("변경할 비밀번호를 입력해주세요.");
+	        System.out.print("▶▶ ");
 	        String checkPw = ds.sc.nextLine();
 
 	        if (!checkPw.equals(Session.loggedInUser.getPw())) {
-	            System.out.println(" Password does not match.");
+	            System.out.println("비밀번호가 일치하지 않습니다.");
 	            return;
 	        }
 
 	        // 수정 여부 확인
-	        System.out.println("Are you sure you want to update your information?  (y / n): ");
+	        System.out.print("정말 수정하시겠습니까? (y / n): ");
 	        String confirm = ds.sc.nextLine();
 	        if (confirm.equalsIgnoreCase("n")) {
-	            System.out.println("❗ Update canceled.");
+	            System.out.println("❗수정이 취소되었습니다.");
 	            return;
 	        }
 
 	        // 새 정보 입력
-	        System.out.println("Enter the new Name: ");
+	        System.out.print("이름: ");
 	        String newName = ds.sc.nextLine();
-	        System.out.println("Enter the new Password: ");
+	        System.out.print("새 비밀번호: ");
 	        String newPw = ds.sc.nextLine();
-	        System.out.println("Enter the new Phone Number: ");
+	        System.out.print("전화번호: ");
 	        String newTel = ds.sc.nextLine();
-	        System.out.println("Enter the new Address: ");
+	        System.out.print("주소: ");
 	        String newAddress = ds.sc.nextLine();
 
 	        // SQL 문법 수정 (SET 다음에만 컬럼 나열)
@@ -176,14 +188,14 @@ public class MemberCommonDAO {
 
 	        if (result > 0) {
 	            con.commit();
-	            System.out.println("Member information updated successfully.");
+	            System.out.println("내 정보가 수정되었습니다!");
 	            // 세션 정보갱신
 	            Session.loggedInUser.setName(newName);
 	            Session.loggedInUser.setPw(newPw);
 	            Session.loggedInUser.setPhone_number(newTel);
 	            Session.loggedInUser.setAddress(newAddress);
 	        } else {
-	            System.out.println("No member found with the provided ID.");
+	            System.out.println("사용자를 찾을 수 없습니다.");
 	        }
 
 	    } catch (Exception e) {

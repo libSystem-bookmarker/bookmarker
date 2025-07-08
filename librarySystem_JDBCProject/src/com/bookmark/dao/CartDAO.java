@@ -109,7 +109,10 @@ public class CartDAO {
 			rs = pstmt.executeQuery();
 
 			List<Integer> bookIdList = new ArrayList<>();
-			System.out.println("===== 장바구니 목록 =====");
+			
+			System.out.println("\n\n");
+			System.out.println("🛒 장바구니 목록");
+			System.out.println("=====================================================================");
 			int index = 1;
 			while (rs.next()) {
 				int bookId = rs.getInt("book_id");
