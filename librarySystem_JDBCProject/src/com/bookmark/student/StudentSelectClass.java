@@ -5,13 +5,20 @@ import java.sql.SQLException;
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
 import com.bookmark.commondao.MemberCommonDAO;
+import com.bookmark.librarian.BookDAO;
+import com.bookmark.loan.LoanSystem;
 
 public class StudentSelectClass {
 	
 	DataSource ds = new DataSource();
 	StudentDAO studentDAO = new StudentDAO();
+	BookDAO bookDao = new BookDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
+
 	//CartDAO cartDAO = new CartDAO();
+
+	LoanSystem loanSystem = new LoanSystem();
+
 	
 		/**
 		 * @author ys.kim
@@ -92,7 +99,7 @@ public class StudentSelectClass {
 			// if member role == admin
 			// else if member role == student
 			System.out.println(
-					"STUDENT MENU | 1. MY INFORMATION | 2. MY LIBRARY INFORMATION | 3. LOG OUT ");
+					"STUDENT MENU | 1. MY INFORMATION | 2. MY LIBRARY INFORMATION | 3. LOG OUT | 4. 도서 대출 | 5. 도서 반납");
 			int studentMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (studentMenu) {
 			case 1: {
@@ -108,8 +115,15 @@ public class StudentSelectClass {
 				Session.loggedInUser = null;
 				break;
 			}
+			case 4: {
+				System.out.println(userName + " user log out: " + userRole);
+				loanSystem.loanBook();
+//				Session.loggedInUser = null;
+			}
+			case 5:
+				bookDao.returnBookById();
 			default:
-				System.out.println("잘못된 입력입니다.");
+				System.out.println("시스템을 종료합니다.");
 
 			}
 		}

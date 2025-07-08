@@ -12,7 +12,7 @@ public class DataSource {
 	
 	//공유 db 설정
 	private static String driverClassName = "oracle.driver.OracleDriver";
-	private static String url = "jdbc:oracle:thin:@localhost:1255:xe";
+	private static String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	private static String username = "hr";
 	private static String password = "hr";
 
@@ -49,3 +49,4 @@ public class DataSource {
 	}
 
 }
+

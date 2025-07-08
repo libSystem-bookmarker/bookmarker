@@ -3,12 +3,16 @@ package com.bookmark.librarian;
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
 import com.bookmark.commondao.MemberCommonDAO;
+import com.bookmark.loan.LoanSystem;
 
 public class LibrarianSelectClass {
 	
 	DataSource ds = new DataSource();
-	LibrarianDAO librarianDAO = new LibrarianDAO();
+	BookDAO bookDao = new BookDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
+	
+	BookCRUD bookManage = new BookCRUD();
+	
 	
 	//librarian's select
 			public void managingLibrarian() {
@@ -40,13 +44,11 @@ public class LibrarianSelectClass {
 				}
 			}
 
-			public void managingBook() {
-				
-			}
+
 			
 	public void showLibrarian(String userName, String userRole) {
 		// if member role == lib
-			System.out.println("LIBRARIAN MENU | 1. MY INFORMATION | 2. BOOK MANAGING | 3. LOG OUT");
+			System.out.println("LIBRARIAN MENU | 1. 연체 내역 | 2. 도서 관리 | 3. 로그 아웃");
 			int librarianMenu = Integer.parseInt(ds.sc.nextLine());
 			switch (librarianMenu) {
 			case 1: {
@@ -54,16 +56,17 @@ public class LibrarianSelectClass {
 				break;
 			}
 			case 2: {
-				managingBook();
+				bookManage.manageBook();
 				break;
 			}
 			case 3: {
 				System.out.println(userName + " user log out: " + userRole);
+
 				Session.loggedInUser = null;
 				break;
 			}
 			default:
-				System.out.println("잘못된 입력입니다.");
+				System.out.println("시스템을 종료합니다.");
 
 			}
 		}
