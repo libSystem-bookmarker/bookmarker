@@ -1,4 +1,4 @@
-package com.bookmark.librarian;
+package com.bookmark.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -20,9 +20,7 @@ import com.bookmark.vo.CategoryVO;
 
 public class BookDAO {
 	
-
 	DataSource ds = new DataSource();
-	Scanner sc = new Scanner(System.in);
 	
 	
 	// 마지막 최근 book id
@@ -153,7 +151,7 @@ public class BookDAO {
 	    }
 
 	    System.out.print("\n반납할 도서 ID를 입력하세요: ");
-	    int bookId = sc.nextInt();
+	    int bookId = Integer.parseInt(ds.sc.nextLine());
 
 	    try {
 	        con = ds.getConnection();
@@ -640,7 +638,7 @@ public class BookDAO {
 	        		bookInfo.getCreateAt(), bookInfo.getTotalCount(), bookInfo.getCategoryId());
 	    
 	        System.out.print("정말 삭제하시겠습니까? (y/n): ");
-	        String confirm = sc.nextLine().trim();
+	        String confirm = ds.sc.nextLine().trim();
 
 	        if (!confirm.equalsIgnoreCase("Y")) {
 	            System.out.println("❎ 삭제가 취소되었습니다.");

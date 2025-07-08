@@ -1,11 +1,10 @@
-package com.bookmark.common;
+package com.bookmark.selectview;
 
 import java.sql.SQLException;
 
-import com.bookmark.admin.AdminSelectClass;
-import com.bookmark.commondao.MemberCommonDAO;
-import com.bookmark.librarian.LibrarianSelectClass;
-import com.bookmark.student.StudentSelectClass;
+import com.bookmark.common.DataSource;
+import com.bookmark.common.Session;
+import com.bookmark.dao.MemberCommonDAO;
 
 public class ViewClass {
 

@@ -1,6 +1,4 @@
-package com.bookmark.common;
-
-import com.bookmark.admin.AdminDAO;
+package com.bookmark.selectview;
 
 public class MainClass {
 

@@ -1,21 +1,21 @@
-package com.bookmark.loan;
+package com.bookmark.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
-import com.bookmark.common.ViewClass;
-import com.bookmark.librarian.BookDAO;
-import com.bookmark.librarian.BookView;
-import com.bookmark.student.CartDAO;
+import com.bookmark.dao.BookDAO;
+import com.bookmark.selectview.BookSelectClass;
+import com.bookmark.selectview.ViewClass;
+import com.bookmark.dao.CartDAO;
 import com.bookmark.vo.BookWithCategoryVO;
 
-public class LoanSystem {
+public class LoanDAO {
 
 	// 조회
 	private static BookDAO dao = new BookDAO();
-	private static BookView view = new BookView();
+	private static BookSelectClass view = new BookSelectClass();
 	static ViewClass loginView = new ViewClass();
 	DataSource ds = new DataSource();
 	CartDAO cartDAO = new CartDAO();  //장바구니

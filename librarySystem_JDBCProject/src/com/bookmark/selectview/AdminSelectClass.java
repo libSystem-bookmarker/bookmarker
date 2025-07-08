@@ -1,5 +1,6 @@
-package com.bookmark.admin;
+package com.bookmark.selectview;
 
+import com.bookmark.dao.AdminDAO;
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
 

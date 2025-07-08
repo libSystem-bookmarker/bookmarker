@@ -1,5 +1,4 @@
-package com.bookmark.student;
-
+package com.bookmark.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bookmark.common.DataSource;
-import com.bookmark.librarian.BookDAO;
+import com.bookmark.dao.BookDAO;
 
 public class CartDAO {
 	

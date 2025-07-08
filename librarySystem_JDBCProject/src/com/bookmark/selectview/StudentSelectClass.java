@@ -1,12 +1,14 @@
-package com.bookmark.student;
+package com.bookmark.selectview;
 
 import java.sql.SQLException;
 
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
-import com.bookmark.commondao.MemberCommonDAO;
-import com.bookmark.librarian.BookDAO;
-import com.bookmark.loan.LoanSystem;
+import com.bookmark.dao.MemberCommonDAO;
+import com.bookmark.dao.BookDAO;
+import com.bookmark.dao.LoanDAO;
+import com.bookmark.dao.CartDAO;
+import com.bookmark.dao.StudentDAO;
 
 public class StudentSelectClass {
 	
@@ -17,7 +19,7 @@ public class StudentSelectClass {
 
 	CartDAO cartDAO = new CartDAO();
 
-	LoanSystem loanSystem = new LoanSystem();
+	LoanDAO loanSystem = new LoanDAO();
 
 	
 		/**

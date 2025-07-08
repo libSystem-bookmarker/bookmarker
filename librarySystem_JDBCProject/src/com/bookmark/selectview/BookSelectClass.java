@@ -1,14 +1,15 @@
-package com.bookmark.librarian;
+package com.bookmark.selectview;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import com.bookmark.common.DataSource;
+import com.bookmark.dao.BookDAO;
 import com.bookmark.vo.BookVO;
 import com.bookmark.vo.BookWithCategoryVO;
 import com.bookmark.vo.CategoryVO;
 
-public class BookView {
+public class BookSelectClass {
 	
 	private BookDAO dao = new BookDAO();
 	private int lastBookId = 1;

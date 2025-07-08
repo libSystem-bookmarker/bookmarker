@@ -1,4 +1,4 @@
-package com.bookmark.admin;
+package com.bookmark.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

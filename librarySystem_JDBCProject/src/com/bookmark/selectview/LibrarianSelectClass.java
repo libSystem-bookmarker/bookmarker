@@ -1,9 +1,10 @@
-package com.bookmark.librarian;
+package com.bookmark.selectview;
 
 import com.bookmark.common.DataSource;
 import com.bookmark.common.Session;
-import com.bookmark.commondao.MemberCommonDAO;
-import com.bookmark.loan.LoanSystem;
+import com.bookmark.dao.MemberCommonDAO;
+import com.bookmark.dao.BookDAO;
+import com.bookmark.dao.LoanDAO;
 import com.bookmark.vo.BookWithCategoryVO;
 
 public class LibrarianSelectClass {
@@ -12,7 +13,7 @@ public class LibrarianSelectClass {
 	BookDAO bookDao = new BookDAO();
 	MemberCommonDAO mcDAO = new MemberCommonDAO();
 	
-	BookCRUD bookManage = new BookCRUD();
+	BookCRUDSelectClass bookManage = new BookCRUDSelectClass();
 
 	
 	//librarian's select

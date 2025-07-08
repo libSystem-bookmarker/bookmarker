@@ -1,19 +1,19 @@
-package com.bookmark.librarian;
+package com.bookmark.selectview;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.bookmark.common.DataSource;
-import com.bookmark.common.ViewClass;
+import com.bookmark.dao.BookDAO;
 import com.bookmark.vo.BookVO;
 import com.bookmark.vo.BookWithCategoryVO;
 
-public class BookCRUD {
+public class BookCRUDSelectClass {
 	
 	DataSource ds = new DataSource();
 	private static BookDAO dao = new BookDAO();
-	private static BookView view = new BookView();
+	private static BookSelectClass view = new BookSelectClass();
 	static ViewClass loginView = new ViewClass();
 
 	/**
