@@ -12,6 +12,8 @@ public class LoanDAO {
 
 	// 조회
 	BookDAO dao = new BookDAO();
+//	private static BookSelectClass view = new BookSelectClass();
+//	static ViewClass loginView = new ViewClass();
 	DataSource ds = new DataSource();
 	CartDAO cartDAO = new CartDAO();  //장바구니
 
