@@ -78,7 +78,6 @@ public class LoanDAO {
 
 			}
 
-			} //
 
 
 			System.out.println("1. 장바구니에 담기 | 2. 대출하기");
@@ -122,5 +121,4 @@ public class LoanDAO {
 		}
 
 	}
-
 }
