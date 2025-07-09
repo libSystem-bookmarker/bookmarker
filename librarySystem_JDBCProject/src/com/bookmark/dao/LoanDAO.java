@@ -78,6 +78,9 @@ public class LoanDAO {
 
 			}
 
+			} //
+
+
 			System.out.println("1. 장바구니에 담기 | 2. 대출하기");
 			int selectCartOrLoan = Integer.parseInt(ds.sc.nextLine());
 			switch (selectCartOrLoan) {
@@ -93,7 +96,7 @@ public class LoanDAO {
 					//장바구니에 담기
 					cartDAO.insertCart(userId, bookId);
 
-				}
+				} //
 
 				break;
 			case 2:
