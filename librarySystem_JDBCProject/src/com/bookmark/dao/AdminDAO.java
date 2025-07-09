@@ -34,7 +34,27 @@ public class AdminDAO {
 			memberVO.setName(ds.sc.nextLine());
 			System.out.print("🔰 권한 (student / lib): ");
 			memberVO.setRole(ds.sc.nextLine());
-			if (memberVO.getRole().equals("student") || memberVO.getRole().equals("lib")) {
+			if (memberVO.getRole().equals("lib")) {
+				System.out.print("전화번호: ");
+				memberVO.setPhone_number(ds.sc.nextLine());
+				System.out.print("주소: ");
+				memberVO.setAddress(ds.sc.nextLine());
+
+					String sqlInsert = "INSERT INTO MEMBER (user_id, pw, name, role, phone_number, address, major_id) VALUES (memberNo_seq.nextval,'1234', ?,?,?,?,null)";
+					pstmt = con.prepareStatement(sqlInsert);
+					pstmt.setString(1, memberVO.getName());
+					pstmt.setString(2, memberVO.getRole());
+					pstmt.setString(3, memberVO.getPhone_number());
+					pstmt.setString(4, memberVO.getAddress());
+
+					int result = pstmt.executeUpdate();
+					if (result > 0) {
+						con.commit();
+						System.out.println("새로운 회원이 등록되었습니다!");
+					} else {
+						System.out.println("등록에 실패했습니다.");
+					}
+				}  else if (memberVO.getRole().equals("student")) {
 				System.out.print("전화번호: ");
 				memberVO.setPhone_number(ds.sc.nextLine());
 				System.out.print("주소: ");
@@ -716,63 +736,79 @@ public class AdminDAO {
 		}
 	}
 
-	// delete major -> delete id and name
-	public void deletemajor() {
-		Connection con = null;
-		System.out.println("\n📋 전공 삭제");
-		System.out.println("=======================================");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			// 전공 목록 출력
-			majorList();
+	/**
+	 * 전공 삭제 - 전공 ID로 삭제, 참조 여부 확인, 예외 처리 개선
+	 */
+	public void deleteMajor() {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
 
-			// connection
-			con = ds.getConnection();
-			con.setAutoCommit(false);
+	    try {
+	        System.out.println("\n📋 전공 삭제");
+	        System.out.println("=======================================");
 
-			// 삭제 대상
-			System.out.println("Enter the major name to delete: ");
-			String deleteName = ds.sc.nextLine();
+	        // 전공 목록 출력 (ID 포함)
+	        majorList();
 
-			// 삭제 확인
-			System.out.println("Are you sure you want to delete this major? " + deleteName + " (y / n): ");
-			String confirm = ds.sc.nextLine();
+	        // 삭제할 전공 ID 입력
+	        System.out.print("삭제할 전공의 ID를 입력하세요: ");
+	        int deleteId = Integer.parseInt(ds.sc.nextLine().trim());
 
-			if (confirm.equals("n")) {
-				System.out.println("delete canceled!");
-				return;
-			}
+	        // 삭제 확인
+	        System.out.print("정말로 삭제하시겠습니까? (y / n): ");
+	        String confirm = ds.sc.nextLine().trim().toLowerCase();
+	        if (!confirm.equals("y")) {
+	            System.out.println("❎ 삭제가 취소되었습니다.");
+	            return;
+	        }
 
-			// 삭제 실행
-			String deleteSql = "delete from major where name = ?";
-			pstmt = con.prepareStatement(deleteSql);
-			pstmt.setString(1, deleteName);
+	        con = ds.getConnection();
+	        con.setAutoCommit(false);
 
-			int result = pstmt.executeUpdate();
+	        // 🔍 참조 중인지 확인
+	        String checkSql = "SELECT COUNT(*) FROM member WHERE major_id = ?";
+	        pstmt = con.prepareStatement(checkSql);
+	        pstmt.setInt(1, deleteId);
+	        rs = pstmt.executeQuery();
+	        if (rs.next() && rs.getInt(1) > 0) {
+	            System.out.println("❗ 해당 전공을 사용하는 회원이 있어 삭제할 수 없습니다.");
+	            return;
+	        }
+	        rs.close();
+	        pstmt.close();
 
-			if (result > 0) {
-				con.commit();
-				System.out.println("전공이 삭제되었습니다!");
-			} else {
-				System.out.println("전공을 찾을 수 없습니다.");
-			}
-		}catch (Exception e) {
+	        // ✅ 삭제 실행
+	        String deleteSql = "DELETE FROM major WHERE major_id = ?";
+	        pstmt = con.prepareStatement(deleteSql);
+	        pstmt.setInt(1, deleteId);
+	        int result = pstmt.executeUpdate();
+
+	        if (result > 0) {
+	            con.commit();
+	            System.out.println("✅ 전공이 삭제되었습니다.");
+	        } else {
+	            System.out.println("⚠️ 해당 ID의 전공이 존재하지 않습니다.");
+	        }
+
+	    } catch (SQLException e) {
 	        try {
 	            if (con != null) con.rollback();
-	            System.out.println("❗ Error occurred: " + e.getMessage());
-	        } catch (Exception e2) {
-	            e2.printStackTrace();
+	            System.out.println("❗ SQL 오류 발생: " + e.getMessage());
+	        } catch (SQLException e2) {
+	            System.out.println("❗ 롤백 중 오류 발생: " + e2.getMessage());
 	        }
+	    } catch (Exception e) {
+	        System.out.println("❗ 기타 오류 발생: " + e.getMessage());
 	    } finally {
 	        try {
+	            if (rs != null) rs.close();
 	            if (pstmt != null) pstmt.close();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
+	            System.out.println("❗ 자원 정리 중 오류: " + e.getMessage());
 	        }
 	        ds.closeConnection(con);
 	    }
-
 	}
-	
+
 }
