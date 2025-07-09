@@ -89,8 +89,8 @@ public class LoanDAO {
 					                  book.getTotalCount());
 					System.out.println("----------------------------------------------------------------------------");
 				}
-			} //
-
+			}
+			
 			System.out.println("\n\n====================================================================");
 			System.out.println("1. 🛒 장바구니에 담기 | 2. 📖 대출하기");
 			int selectCartOrLoan = Integer.parseInt(ds.sc.nextLine());
