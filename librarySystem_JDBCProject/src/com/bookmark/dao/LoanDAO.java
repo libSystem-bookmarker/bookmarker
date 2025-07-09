@@ -93,7 +93,7 @@ public class LoanDAO {
 					//장바구니에 담기
 					cartDAO.insertCart(userId, bookId);
 
-				}
+				} //
 
 				break;
 			case 2:
