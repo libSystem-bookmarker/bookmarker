@@ -21,12 +21,10 @@ public class MemberCommonDAO {
 	/**
 	 * @author ys.kim
 	 * @param inputId
-	 * @param inputPw
-	 * 아이디, 비밀번호를 확인해 로그인 하는 메서드
-	 * @throws InterruptedException 
+	 * @param inputPw 아이디, 비밀번호를 확인해 로그인 하는 메서드
+	 * @throws InterruptedException
 	 */
 	public boolean loginMember(String inputId, String inputPw) {
-
 		try {
 			con = ds.getConnection();
 			// login sql
@@ -49,10 +47,9 @@ public class MemberCommonDAO {
 
 				Session.loggedInUser = memberVO; // 로그인된 사용자 세션 저장
 				System.out.println("로그인 성공! [" + memberVO.getName() + " " + memberVO.getRole() + "]");
-				
 
-		            System.out.println(memberVO.getName()  + "님🌌 책갈피에 오신 걸 환영합니다 ✨\n");
-				
+				System.out.println(memberVO.getName() + "님🌌 책갈피에 오신 걸 환영합니다 ✨\n");
+
 				return true;
 			} else {
 				System.out.println("로그인 실패: 아이디 또는 비밀번호 오류");
@@ -69,48 +66,58 @@ public class MemberCommonDAO {
 	}
 
 	/**
-	 * @author ys.kim
-	 * 현재 로그인 한 사용자의 상세 정보를 출력하는 메서드
+	 * @author ys.kim 현재 로그인 한 사용자의 상세 정보를 출력하는 메서드
 	 * 
-	 * @modify ys.kim
-	 * 20250708
-	 * 쿼리 수정
+	 * @modify ys.kim 20250708 쿼리 수정
 	 */
 	public void userDetails() {
-		
-		
+
 		System.out.println("		          내 정보						");
 		System.out.println("=====================================================");
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = ds.getConnection();
 			int userId = Session.loggedInUser.getUser_id();
+			String userRole = Session.loggedInUser.getRole();
 
+			if (userRole.equals("lib")) {
 			// sql
-			String memberDetailSql = "SELECT \r\n"
-					+ "    member.user_id, \r\n"
-					+ "    member.name, \r\n"
-					+ "    member.role, \r\n"
-					+ "    major.major_name AS major_name \r\n"
-					+ "FROM \r\n"
-					+ "    member \r\n"
-					+ "LEFT JOIN \r\n"
-					+ "    major ON major.major_id = member.major_id \r\n"
-					+ "WHERE \r\n"
-					+ "    member.user_id ="+userId;
+			String memberDetailSql = "SELECT \r\n" + "    member.user_id, \r\n" + "    member.name, \r\n"
+					+ "    member.role, \r\n" + "    major.major_name AS major_name \r\n" + "FROM \r\n"
+					+ "    member \r\n" + "LEFT JOIN \r\n" + "    major ON major.major_id = member.major_id \r\n"
+					+ "WHERE \r\n" + "    member.user_id =" + userId;
 			pstmt = con.prepareStatement(memberDetailSql);
 			rs = pstmt.executeQuery();
 
-			System.out.println("[ " + Session.loggedInUser.getName() + " ]" );
-			while (rs.next()) {
-				int id = rs.getInt("user_id");
-				String name = rs.getString("name");
-				String role = rs.getString("role");
-				System.out.printf("ID: %-10d | NAME: %-10s | ROLE: %-7s\n", id, name, role);
+			System.out.println("[ " + Session.loggedInUser.getName() + " ]");
+
+				while (rs.next()) {
+					int id = rs.getInt("user_id");
+					String name = rs.getString("name");
+					String role = rs.getString("role");
+					System.out.printf("ID: %-10d | NAME: %-10s | ROLE: %-7s\n", id, name, role);
+				}
+			} else if (userRole.equals("student")) {
+				String memberDetailSql = "SELECT user_id, role, name, m.major_id, j.major_name\r\n"
+						+ "				FROM member m\r\n"
+						+ "				JOIN major j ON m.major_id = j.major_id\r\n"
+						+ "				WHERE user_id ="+userId;
+				pstmt = con.prepareStatement(memberDetailSql);
+				rs = pstmt.executeQuery();
+				System.out.println("[ " + Session.loggedInUser.getName() + " ]");
+				while (rs.next()) {
+					int id = rs.getInt("user_id");
+					String name = rs.getString("name");
+					String role = rs.getString("role");
+					String major = rs.getString("major_name");
+					System.out.printf("ID: %-7d | NAME: %-5s | ROLE: %-7s | MAJOR: %-7s", id, name, role, major);
+				}
+				
 			}
+
 		} catch (SQLException e) {
 			System.out.println("Failed to fetch member information: " + e.getMessage());
 		} finally {
@@ -127,91 +134,92 @@ public class MemberCommonDAO {
 			ds.closeConnection(con);
 		}
 	}
-	
+
 	/**
-	 * @author ys.kim
-	 * 현재 로그인한 사용자의 롤에 따라 한정된 정보 수정
+	 * @author ys.kim 현재 로그인한 사용자의 롤에 따라 한정된 정보 수정
 	 */
 	public void updateMember() {
-	    Connection con = null;
-	    System.out.println();
-	    System.out.println("		    내 정보 수정					");
+		Connection con = null;
+		System.out.println();
+		System.out.println("		    내 정보 수정					");
 		System.out.println("=================================================");
-	    PreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 
-	    try {
-	        // DB 연결
-	        con = ds.getConnection();
-	        con.setAutoCommit(false); // 트랜잭션 시작
+		try {
+			// DB 연결
+			con = ds.getConnection();
+			con.setAutoCommit(false); // 트랜잭션 시작
 
-	        // 로그인 유저 정보
-	        int currentUserId = Session.loggedInUser.getUser_id();
+			// 로그인 유저 정보
+			int currentUserId = Session.loggedInUser.getUser_id();
 
-	        // 비밀번호 확인
-	        System.out.println("변경할 비밀번호를 입력해주세요.");
-	        System.out.print("▶▶ ");
-	        String checkPw = ds.sc.nextLine();
+			// 비밀번호 확인
+			System.out.println("변경할 비밀번호를 입력해주세요.");
+			System.out.print("▶▶ ");
+			String checkPw = ds.sc.nextLine();
 
-	        if (!checkPw.equals(Session.loggedInUser.getPw())) {
-	            System.out.println("비밀번호가 일치하지 않습니다.");
-	            return;
-	        }
+			if (!checkPw.equals(Session.loggedInUser.getPw())) {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+				return;
+			}
 
-	        // 수정 여부 확인
-	        System.out.print("정말 수정하시겠습니까? (y / n): ");
-	        String confirm = ds.sc.nextLine();
-	        if (confirm.equalsIgnoreCase("n")) {
-	            System.out.println("❗수정이 취소되었습니다.");
-	            return;
-	        }
+			// 수정 여부 확인
+			System.out.print("정말 수정하시겠습니까? (y / n): ");
+			String confirm = ds.sc.nextLine();
+			if (confirm.equalsIgnoreCase("n")) {
+				System.out.println("❗수정이 취소되었습니다.");
+				return;
+			}
 
-	        // 새 정보 입력
-	        System.out.print("이름: ");
-	        String newName = ds.sc.nextLine();
-	        System.out.print("새 비밀번호: ");
-	        String newPw = ds.sc.nextLine();
-	        System.out.print("전화번호: ");
-	        String newTel = ds.sc.nextLine();
-	        System.out.print("주소: ");
-	        String newAddress = ds.sc.nextLine();
+			// 새 정보 입력
+			System.out.print("이름: ");
+			String newName = ds.sc.nextLine();
+			System.out.print("새 비밀번호: ");
+			String newPw = ds.sc.nextLine();
+			System.out.print("전화번호: ");
+			String newTel = ds.sc.nextLine();
+			System.out.print("주소: ");
+			String newAddress = ds.sc.nextLine();
 
-	        // SQL 문법 수정 (SET 다음에만 컬럼 나열)
-	        String updateUserSql = "UPDATE member SET name = ?, pw = ?, phone_number = ?, address = ? WHERE user_id = ?";
-	        pstmt = con.prepareStatement(updateUserSql);
-	        pstmt.setString(1, newName);
-	        pstmt.setString(2, newPw);
-	        pstmt.setString(3, newTel);
-	        pstmt.setString(4, newAddress);
-	        pstmt.setInt(5, currentUserId);
+			// SQL 문법 수정 (SET 다음에만 컬럼 나열)
+			String updateUserSql = "UPDATE member SET name = ?, pw = ?, phone_number = ?, address = ? WHERE user_id = ?";
+			pstmt = con.prepareStatement(updateUserSql);
+			pstmt.setString(1, newName);
+			pstmt.setString(2, newPw);
+			pstmt.setString(3, newTel);
+			pstmt.setString(4, newAddress);
+			pstmt.setInt(5, currentUserId);
 
-	        int result = pstmt.executeUpdate();
+			int result = pstmt.executeUpdate();
 
-	        if (result > 0) {
-	            con.commit();
-	            System.out.println("내 정보가 수정되었습니다!");
-	            // 세션 정보갱신
-	            Session.loggedInUser.setName(newName);
-	            Session.loggedInUser.setPw(newPw);
-	            Session.loggedInUser.setPhone_number(newTel);
-	            Session.loggedInUser.setAddress(newAddress);
-	        } else {
-	            System.out.println("사용자를 찾을 수 없습니다.");
-	        }
+			if (result > 0) {
+				con.commit();
+				System.out.println("내 정보가 수정되었습니다!");
+				// 세션 정보갱신
+				Session.loggedInUser.setName(newName);
+				Session.loggedInUser.setPw(newPw);
+				Session.loggedInUser.setPhone_number(newTel);
+				Session.loggedInUser.setAddress(newAddress);
+			} else {
+				System.out.println("사용자를 찾을 수 없습니다.");
+			}
 
-	    } catch (Exception e) {
-	        try {
-	            if (con != null) con.rollback();
-	            System.out.println("❗ Error occurred: " + e.getMessage());
-	        } catch (Exception e2) {
-	            e2.printStackTrace();
-	        }
-	    } finally {
-	        try {
-	            if (pstmt != null) pstmt.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        ds.closeConnection(con);
-	    }
+		} catch (Exception e) {
+			try {
+				if (con != null)
+					con.rollback();
+				System.out.println("❗ Error occurred: " + e.getMessage());
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ds.closeConnection(con);
+		}
 	}
 }
